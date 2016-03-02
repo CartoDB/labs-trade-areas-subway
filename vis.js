@@ -1,0 +1,269 @@
+window.myapp = window.myapp || {};
+
+window.myapp.vis = {
+  "id": "f7e73372-dfbd-11e5-b9ef-0ea31932ec1d",
+  "version": "0.1.0",
+  "title": "nyc_census_final 1",
+  "likes": 0,
+  "description": null,
+  "scrollwheel": false,
+  "legends": true,
+  "url": null,
+  "map_provider": "leaflet",
+  "bounds": [
+    [
+      40.684217884706875,
+      -74.0273380279541
+    ],
+    [
+      40.76006565527099,
+      -73.91790390014648
+    ]
+  ],
+  "center": "[40.7221525738643, -73.9726209640503]",
+  "zoom": 14,
+  "updated_at": "2016-03-02T14:25:04+00:00",
+  "layers": [
+    {
+      "options": {
+        "visible": true,
+        "type": "Tiled",
+        "default": "true",
+        "url": "http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png",
+        "subdomains": "abcd",
+        "minZoom": "0",
+        "maxZoom": "18",
+        "name": "Positron",
+        "className": "httpsbasemapscartocdncomlight_nolabelszxypng",
+        "attribution": "&copy; <a href=\"http://www.openstreetmap.org/copyright\">OpenStreetMap</a> contributors &copy; <a href=\"http://cartodb.com/attributions\">CartoDB</a>",
+        "labels": {
+          "url": "http://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}.png"
+        },
+        "urlTemplate": "http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png",
+        "id": "827f151e-7ad8-4e11-ad96-4f5325315c1d",
+        "order": 0
+      },
+      "infowindow": null,
+      "tooltip": null,
+      "id": "827f151e-7ad8-4e11-ad96-4f5325315c1d",
+      "order": 0,
+      "type": "tiled"
+    },
+    {
+      "type": "layergroup",
+      "options": {
+        "user_name": "nerikcarto",
+        "maps_api_template": "https://{user}.cartodb.com:443",
+        "sql_api_template": "https://{user}.cartodb.com:443",
+        "tiler_protocol": "http",
+        "tiler_domain": "cartodb.com",
+        "tiler_port": "80",
+        "sql_api_protocol": "http",
+        "sql_api_domain": "cartodb.com",
+        "sql_api_endpoint": "/api/v2/sql",
+        "sql_api_port": 80,
+        "filter": "mapnik",
+        "layer_definition": {
+          "stat_tag": "f7e73372-dfbd-11e5-b9ef-0ea31932ec1d",
+          "version": "1.0.1",
+          "layers": [
+            {
+              "id": "16936c14-22ce-40bd-8be8-a5b3575a5c11",
+              "type": "CartoDB",
+              "infowindow": {
+                "fields": [
+                  {
+                    "name": "total_pop",
+                    "title": true,
+                    "position": 0
+                  }
+                ],
+                "template_name": "infowindow_dark",
+                "template": "<div class=\"cartodb-popup dark v2\">\n  <a href=\"#close\" class=\"cartodb-popup-close-button close\">x</a>\n  <div class=\"cartodb-popup-content-wrapper\">\n    <div class=\"cartodb-popup-content\">\n      {{#content.fields}}\n        {{#title}}<h4>{{title}}</h4>{{/title}}\n        {{#value}}\n          <p {{#type}}class=\"{{ type }}\"{{/type}}>{{{ value }}}</p>\n        {{/value}}\n        {{^value}}\n          <p class=\"empty\">null</p>\n        {{/value}}\n      {{/content.fields}}\n    </div>\n  </div>\n  <div class=\"cartodb-popup-tip-container\"></div>\n</div>\n",
+                "alternative_names": {},
+                "width": 226,
+                "maxHeight": 180
+              },
+              "tooltip": {
+                "fields": [],
+                "template_name": "tooltip_light",
+                "template": "<div class=\"cartodb-tooltip-content-wrapper\">\n  <div class=\"cartodb-tooltip-content\">\n  {{#fields}}\n    {{#title}}\n    <h4>{{title}}</h4>\n    {{/title}}\n    <p>{{{ value }}}</p>\n  {{/fields}}\n  </div>\n</div>",
+                "alternative_names": {},
+                "maxHeight": 180
+              },
+              "legend": {
+                "type": "none",
+                "show_title": false,
+                "title": "",
+                "template": "",
+                "visible": true
+              },
+              "order": 1,
+              "visible": true,
+              "options": {
+                "sql": "/*\n\nWITH isolines AS (\n\tSELECT cdb_isochrone(\n    \tST_GeomFromText('POINT(-73.998584 40.719)',4326),\n      \t'walk',\n      \tArray[300,600,900,1200]\n      \n    ) iso\n)\n\n\n\nSELECT \nnerikcarto.nyc_census_final.cartodb_id,\nnerikcarto.nyc_census_final.the_geom,\nnerikcarto.nyc_census_final.total_pop,\nnerikcarto.nyc_census_final.the_geom_webmercator \nFROM \nnerikcarto.nyc_census_final, isolines \nWHERE \n\tST_Intersects(\n  \t\tnerikcarto.nyc_census_final.the_geom,\n  \t\t(SELECT \n         \t(isolines.iso).the_geom\t\n         FROM \n         \tisolines  \n\t\tWHERE \n         \t(isolines.iso).data_range = 1200\n         LIMIT 1\n        )\n )\n\n*/\n\nselect\nnerikcarto.nyc_census_final.cartodb_id,\nnerikcarto.nyc_census_final.the_geom,\nnerikcarto.nyc_census_final.total_pop,\nnerikcarto.nyc_census_final.median_age,\nnerikcarto.nyc_census_final.per_capita_income,\nnerikcarto.nyc_census_final.the_geom_webmercator \nFROM nerikcarto.nyc_census_final, nerikcarto.nyc_isos_copy\n/*\nWHERE \n\tST_Intersects(\n  \t\tnerikcarto.nyc_census_final.the_geom,\n  \t\t(SELECT \n         \tthe_geom\t\n         FROM \n         \tnerikcarto.nyc_isos_copy  \n\t\tWHERE \n         \tdata_range = 1800\n         LIMIT 1\n        )\n )\n*/",
+                "layer_name": "nyc_census_final",
+                "cartocss": "/** simple visualization */\n\n#nyc_census_final{\n  polygon-fill: #FF6600;\n  polygon-opacity: 0.7;\n  line-color: #FFF;\n  line-width: 0.5;\n  line-opacity: 1;\n}",
+                "cartocss_version": "2.1.1",
+                "interactivity": "cartodb_id",
+                "table_name": "\"\"."
+              }
+            },
+            {
+              "id": "824fb056-e7f0-4f55-a238-cdbd194b51dc",
+              "type": "CartoDB",
+              "infowindow": {
+                "fields": [],
+                "template_name": "table/views/infowindow_light",
+                "template": "<div class=\"cartodb-popup v2\">\n  <a href=\"#close\" class=\"cartodb-popup-close-button close\">x</a>\n  <div class=\"cartodb-popup-content-wrapper\">\n    <div class=\"cartodb-popup-content\">\n      {{#content.fields}}\n        {{#title}}<h4>{{title}}</h4>{{/title}}\n        {{#value}}\n          <p {{#type}}class=\"{{ type }}\"{{/type}}>{{{ value }}}</p>\n        {{/value}}\n        {{^value}}\n          <p class=\"empty\">null</p>\n        {{/value}}\n      {{/content.fields}}\n    </div>\n  </div>\n  <div class=\"cartodb-popup-tip-container\"></div>\n</div>\n",
+                "alternative_names": {},
+                "width": 226,
+                "maxHeight": 180
+              },
+              "tooltip": {
+                "fields": [],
+                "template_name": "tooltip_light",
+                "template": "<div class=\"cartodb-tooltip-content-wrapper\">\n  <div class=\"cartodb-tooltip-content\">\n  {{#fields}}\n    {{#title}}\n    <h4>{{title}}</h4>\n    {{/title}}\n    <p>{{{ value }}}</p>\n  {{/fields}}\n  </div>\n</div>",
+                "alternative_names": {},
+                "maxHeight": 180
+              },
+              "legend": {
+                "type": "none",
+                "show_title": false,
+                "title": "",
+                "template": "",
+                "visible": true
+              },
+              "order": 2,
+              "visible": true,
+              "options": {
+                "sql": "select * from nyc_subway_stations_l_isos",
+                "layer_name": "nyc_subway_stations_l_isos",
+                "cartocss": "/** simple visualization */\n\n#nyc_isos_copy{\n  polygon-opacity: 0;\n  line-color: #A53ED5;\n  line-width: 3;\n  line-opacity: 1;\n}\n#nyc_isos_copy::lbl{\n  text-name: [data_range]/60 + 'm. walking';\n  text-face-name: 'DejaVu Sans Bold';\n  text-size: 11;\n  text-label-position-tolerance: 10;\n  text-halo-fill: #170F10;\n  text-halo-radius: 2;\n  text-allow-overlap: false;\n  text-placement: line;\n  text-placement-type: simple;\n  text-fill: #fff;\n\n}",
+                "cartocss_version": "2.1.1",
+                "interactivity": "cartodb_id",
+                "table_name": "\"\"."
+              }
+            },
+            {
+              "id": "b1ee206b-4cd5-4b64-967f-50721d2f9b7a",
+              "type": "CartoDB",
+              "infowindow": {
+                "fields": [],
+                "template_name": "table/views/infowindow_light",
+                "template": "<div class=\"cartodb-popup v2\">\n  <a href=\"#close\" class=\"cartodb-popup-close-button close\">x</a>\n  <div class=\"cartodb-popup-content-wrapper\">\n    <div class=\"cartodb-popup-content\">\n      {{#content.fields}}\n        {{#title}}<h4>{{title}}</h4>{{/title}}\n        {{#value}}\n          <p {{#type}}class=\"{{ type }}\"{{/type}}>{{{ value }}}</p>\n        {{/value}}\n        {{^value}}\n          <p class=\"empty\">null</p>\n        {{/value}}\n      {{/content.fields}}\n    </div>\n  </div>\n  <div class=\"cartodb-popup-tip-container\"></div>\n</div>\n",
+                "alternative_names": {},
+                "width": 226,
+                "maxHeight": 180
+              },
+              "tooltip": {
+                "fields": [],
+                "template_name": "tooltip_light",
+                "template": "<div class=\"cartodb-tooltip-content-wrapper\">\n  <div class=\"cartodb-tooltip-content\">\n  {{#fields}}\n    {{#title}}\n    <h4>{{title}}</h4>\n    {{/title}}\n    <p>{{{ value }}}</p>\n  {{/fields}}\n  </div>\n</div>",
+                "alternative_names": {},
+                "maxHeight": 180
+              },
+              "legend": {
+                "type": "none",
+                "show_title": false,
+                "title": "",
+                "template": "",
+                "visible": true
+              },
+              "order": 3,
+              "visible": true,
+              "options": {
+                "sql": "SELECT * FROM nerikcarto.nyc_subway_stations WHERE line like '%L%'\n",
+                "layer_name": "nyc_subway_stations",
+                "cartocss": "/** simple visualization */\n\n#nyc_subway_stations{\n  marker-fill-opacity: 0.9;\n  marker-line-color: #FFF;\n  marker-line-width: 1;\n  marker-line-opacity: 1;\n  marker-placement: point;\n  marker-type: ellipse;\n  marker-width: 10;\n  marker-fill: #229A00;\n  marker-allow-overlap: true;\n}",
+                "cartocss_version": "2.1.1",
+                "interactivity": "cartodb_id",
+                "table_name": "\"\"."
+              }
+            }
+          ]
+        },
+        "attribution": ""
+      }
+    },
+    {
+      "options": {
+        "visible": true,
+        "type": "Tiled",
+        "default": "true",
+        "url": "http://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}.png",
+        "subdomains": "abcd",
+        "minZoom": "0",
+        "maxZoom": "18",
+        "attribution": "&copy; <a href=\"http://www.openstreetmap.org/copyright\">OpenStreetMap</a> contributors &copy; <a href=\"http://cartodb.com/attributions\">CartoDB</a>",
+        "urlTemplate": "http://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}.png",
+        "name": "Positron Labels",
+        "id": "57c54468-51cc-4a5c-a519-5bf3b0aa3445",
+        "className": "httpsbasemapscartocdncomlight_only_labelszxypng",
+        "order": 5
+      },
+      "infowindow": null,
+      "tooltip": null,
+      "id": "57c54468-51cc-4a5c-a519-5bf3b0aa3445",
+      "order": 5,
+      "type": "tiled"
+    }
+  ],
+  "overlays": [
+    {
+      "type": "share",
+      "order": 2,
+      "options": {
+        "display": true,
+        "x": 20,
+        "y": 20
+      },
+      "template": ""
+    },
+    {
+      "type": "search",
+      "order": 3,
+      "options": {
+        "display": true,
+        "x": 60,
+        "y": 20
+      },
+      "template": ""
+    },
+    {
+      "type": "zoom",
+      "order": 6,
+      "options": {
+        "display": true,
+        "x": 20,
+        "y": 20
+      },
+      "template": "<a href=\"#zoom_in\" class=\"zoom_in\">+</a> <a href=\"#zoom_out\" class=\"zoom_out\">-</a>"
+    },
+    {
+      "type": "loader",
+      "order": 8,
+      "options": {
+        "display": true,
+        "x": 20,
+        "y": 150
+      },
+      "template": "<div class=\"loader\" original-title=\"\"></div>"
+    },
+    {
+      "type": "logo",
+      "order": 9,
+      "options": {
+        "display": true,
+        "x": 10,
+        "y": 40
+      },
+      "template": ""
+    }
+  ],
+  "prev": null,
+  "next": null,
+  "transition_options": {
+    "time": 0
+  }
+}

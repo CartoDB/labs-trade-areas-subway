@@ -1,0 +1,38 @@
+{
+  "name": "cartodb-isodeepdataobs",
+  "version": "0.0.1",
+  "description": "iso-deep-dataobs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "true ",
+    "livereload": "live-reload --port 9096 .",
+    "open": "opener http://localhost:9090",
+    "serve": "http-server -s -p 9095 .",
+    "dev": "npm run build -s && (sleep 1 && npm run open -s) &  npm run livereload -s & npm run serve",
+    "gist": "echo 'iso-deep-dataobs' > '..cartodb-isodeepdataobs' && gistup && gistup-rename 'cartodb-isodeepdataobs - iso-deep-dataobs'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nerik/generator-cartodb.git"
+  },
+  "keywords": [
+    "cartodb"
+  ],
+  "author": "nerik",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nerik/generator-cartodb/issues"
+  },
+  "homepage": "https://github.com/nerik/generator-cartodb#readme",
+  "devDependencies": {
+    "http-server": "^0.8.5",
+    "live-reload": "^1.1.0",
+    "opener": "^1.4.1",
+    "gistup": "^0.1.2",
+    "eslint": "^2.0.0"
+  },
+  "dependencies": {
+    "cartodb": "^0.3.0"
+  }
+}

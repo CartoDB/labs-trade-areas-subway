@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Deep-Insights.js</title>
+  <meta name=viewport content="width=device-width initial-scale=1">
+  <link rel="stylesheet" href="lib/themes/css/deep-insights.css" />
+  <link rel="shortcut icon" href="favicon.ico" />
+  <script src="lib/deep-insights.uncompressed.js"></script>
+  <script src="vis.js"></script>
+  <script src="index.js"></script>
+  <script src="//localhost:9096"></script>
+  <style type="text/css">
+    html, body {
+      position:relative;
+      height: 100%;
+      padding: 0;
+      margin: 0;
+    }
+
+    .subway_station {
+      width: 20px;
+      height: 20px;
+      background: #f0F;
+    }
+  </style>
+</head>
+<body>
+  <script type="text/template" id="sql_blockgroups">
+    select
+    nerikcarto.nyc_census_final.cartodb_id,
+    nerikcarto.nyc_census_final.the_geom,
+    nerikcarto.nyc_census_final.total_pop,
+    nerikcarto.nyc_census_final.median_age,
+    nerikcarto.nyc_census_final.per_capita_income,
+    nerikcarto.nyc_census_final.the_geom_webmercator
+    FROM nerikcarto.nyc_census_final, nerikcarto.nyc_subway_stations_l_isos
+    WHERE
+    ST_Intersects(
+    nerikcarto.nyc_census_final.the_geom,
+    (SELECT
+    the_geom
+    FROM
+    nerikcarto.nyc_subway_stations_l_isos
+    WHERE
+    data_range = 1200
+    AND
+    station_id = <%= station_id %>
+    LIMIT 1
+    )
+    )
+  </script>
+  <div id="dashboard"></div>
+</body>
+</html>
