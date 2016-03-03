@@ -3,7 +3,7 @@
 
     window.myapp = window.myapp || {};
 
-    window.myapp.layers = ["16936c14-22ce-40bd-8be8-a5b3575a5c11"];
+    window.myapp.layers = ["16936c14-22ce-40bd-8be8-a5b3575a5c11","","","494bef04-c4e3-40bb-bdf3-7284cd020684"];
 
     window.myapp.diJSON = cdb._.extend(window.myapp.vis,
         {
@@ -35,37 +35,38 @@
           {
               "type": "formula",
               "title": "# people within distance",
-              "layer_id": window.myapp.layers[0],
+              "layer_id": window.myapp.layers[3],
+              'show_stats': true,
               "options": {
                   "type": "formula",
-                  "column": "total_pop",
+                  "column": "pop_per_point",
                   "operation": "sum",
-                  "suffix": ''
+                  "suffix": '',
               }
           },
-          {
-              "type": "histogram",
-              "title": "Median age",
-              "layer_id": window.myapp.layers[0],
-              "options": {
-                  "type": "histogram",
-                  "column": "median_age",
-                  "sync": true,
-                  "bins": 10
-              }
-          },
-
-          {
-              "type": "histogram",
-              "title": "Per capita income",
-              "layer_id": window.myapp.layers[0],
-              "options": {
-                  "type": "histogram",
-                  "column": "per_capita_income",
-                  "sync": true,
-                  "bins": 10
-              }
-          },
+          // {
+          //     "type": "histogram",
+          //     "title": "Median age",
+          //     "layer_id": window.myapp.layers[0],
+          //     "options": {
+          //         "type": "histogram",
+          //         "column": "median_age",
+          //         "sync": true,
+          //         "bins": 10
+          //     }
+          // },
+          //
+          // {
+          //     "type": "histogram",
+          //     "title": "Per capita income",
+          //     "layer_id": window.myapp.layers[0],
+          //     "options": {
+          //         "type": "histogram",
+          //         "column": "per_capita_income",
+          //         "sync": true,
+          //         "bins": 10
+          //     }
+          // },
           // {
           //     "type": "histogram",
           //     "title": "invehicle",
@@ -159,8 +160,8 @@
 
 
 
-    cartodb.vis.Vis.prototype.centerMapToOrigin = function () {}
-    cartodb.vis.Vis.prototype.instantiateMap = function () {}
+    // cartodb.vis.Vis.prototype.centerMapToOrigin = function () {}
+    // cartodb.vis.Vis.prototype.instantiateMap = function () {}
     window.onload = function () {
       // try {
 
@@ -174,6 +175,7 @@
           var sql_iso = cartodb._.template('select * from nyc_subway_stations_l_isos WHERE station_id = <%= station_id %>');
             // console.log(cartodb.$('#sql_blockgroups') )
           var sql_blockgroups = cartodb._.template( cdb.$('#sql_blockgroups').html() );
+          var sql_dots = cartodb._.template( cdb.$('#sql_dots').html() );
 
           window.myapp.wcontainer = cdb.$('#' + vis.$el.context.id + ' .CDB-Widget-canvasInner').get(0);
           window.myapp.mylayers = layers.models;
@@ -186,6 +188,8 @@
 
           var blockgroups = layers.models[1];
           var iso = layers.models[2];
+          var dots = layers.models[3];
+          console.log(dots)
 
 
           myapp.sql.execute('SELECT * FROM nerikcarto.nyc_subway_stations WHERE line like \'%L%\'', {}, {
@@ -207,9 +211,15 @@
 
                   iso.set('sql', sql_iso({station_id: station_id}));
 
-                  var blockgroups_sql_tpl = sql_blockgroups({station_id: station_id});
-                  console.log(blockgroups_sql_tpl)
-                  blockgroups.set('sql', blockgroups_sql_tpl);
+                  // var blockgroups_sql_tpl = sql_blockgroups({station_id: station_id});
+                  // console.log(blockgroups_sql_tpl)
+                  // blockgroups.set('sql', blockgroups_sql_tpl);
+                  var dots_sql_tpl = sql_dots({station_id: station_id});
+                  console.log(dots_sql_tpl)
+                  console.log(dots.get('sql'))
+                  dots.set('sql', dots_sql_tpl);
+
+
                 })
               }
             }).addTo(myapp.Lmap)

@@ -23,3 +23,36 @@ ST_Transform(
 ) the_geom_webmercator
 FROM
 iso
+
+
+
+# quick and dirty selct around center of Manhattan
+SELECT
+nerikcarto.us_census_shore_clipped_ny2.the_geom,
+nerikcarto.us_census_shore_clipped_ny2.geoid
+FROM nerikcarto.us_census_shore_clipped_ny2
+where
+ST_Distance(
+  ST_GeomFromText('POINT(-73.971249 40.783060)',4326),
+  nerikcarto.us_census_shore_clipped_ny2.the_geom
+) < .5
+
+
+
+#join with census
+WITH geoms AS (
+  SELECT
+  	geoid geoid_clipped,
+  	the_geom the_geom_clipped
+   FROM
+  nerikcarto.us_census_shore_clipped_ny2_copy
+)
+
+SELECT
+*
+FROM
+nerikcarto.nyc_census_final c
+INNER JOIN
+geoms
+ON
+  geoms.geoid_clipped = c.geoid

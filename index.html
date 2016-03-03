@@ -34,10 +34,32 @@
     nerikcarto.nyc_census_final.median_age,
     nerikcarto.nyc_census_final.per_capita_income,
     nerikcarto.nyc_census_final.the_geom_webmercator
-    FROM nerikcarto.nyc_census_final, nerikcarto.nyc_subway_stations_l_isos
+    FROM nerikcarto.nyc_census_final
     WHERE
     ST_Intersects(
     nerikcarto.nyc_census_final.the_geom,
+    (SELECT
+    the_geom
+    FROM
+    nerikcarto.nyc_subway_stations_l_isos
+    WHERE
+    data_range = 1200
+    AND
+    station_id = <%= station_id %>
+    LIMIT 1
+    )
+    )
+  </script>
+  <script type="text/template" id="sql_dots">
+    select
+    nerikcarto.nyc_dots_500_2.cartodb_id,
+    nerikcarto.nyc_dots_500_2.the_geom,
+    nerikcarto.nyc_dots_500_2.pop_per_point,
+    nerikcarto.nyc_dots_500_2.the_geom_webmercator
+    FROM nerikcarto.nyc_dots_500_2
+    WHERE
+    ST_Within(
+    nerikcarto.nyc_dots_500_2.the_geom,
     (SELECT
     the_geom
     FROM

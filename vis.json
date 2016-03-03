@@ -10,17 +10,17 @@
   "map_provider": "leaflet",
   "bounds": [
     [
-      40.684217884706875,
-      -74.0273380279541
+      40.6907913077715,
+      -74.02235984802246
     ],
     [
-      40.76006565527099,
-      -73.91790390014648
+      40.76663159147414,
+      -73.87782096862793
     ]
   ],
-  "center": "[40.7221525738643, -73.9726209640503]",
+  "center": "[40.72872225387065, -73.95009040832518]",
   "zoom": 14,
-  "updated_at": "2016-03-02T14:25:04+00:00",
+  "updated_at": "2016-03-03T14:17:55+00:00",
   "layers": [
     {
       "options": {
@@ -97,7 +97,7 @@
                 "visible": true
               },
               "order": 1,
-              "visible": true,
+              "visible": false,
               "options": {
                 "sql": "/*\n\nWITH isolines AS (\n\tSELECT cdb_isochrone(\n    \tST_GeomFromText('POINT(-73.998584 40.719)',4326),\n      \t'walk',\n      \tArray[300,600,900,1200]\n      \n    ) iso\n)\n\n\n\nSELECT \nnerikcarto.nyc_census_final.cartodb_id,\nnerikcarto.nyc_census_final.the_geom,\nnerikcarto.nyc_census_final.total_pop,\nnerikcarto.nyc_census_final.the_geom_webmercator \nFROM \nnerikcarto.nyc_census_final, isolines \nWHERE \n\tST_Intersects(\n  \t\tnerikcarto.nyc_census_final.the_geom,\n  \t\t(SELECT \n         \t(isolines.iso).the_geom\t\n         FROM \n         \tisolines  \n\t\tWHERE \n         \t(isolines.iso).data_range = 1200\n         LIMIT 1\n        )\n )\n\n*/\n\nselect\nnerikcarto.nyc_census_final.cartodb_id,\nnerikcarto.nyc_census_final.the_geom,\nnerikcarto.nyc_census_final.total_pop,\nnerikcarto.nyc_census_final.median_age,\nnerikcarto.nyc_census_final.per_capita_income,\nnerikcarto.nyc_census_final.the_geom_webmercator \nFROM nerikcarto.nyc_census_final, nerikcarto.nyc_isos_copy\n/*\nWHERE \n\tST_Intersects(\n  \t\tnerikcarto.nyc_census_final.the_geom,\n  \t\t(SELECT \n         \tthe_geom\t\n         FROM \n         \tnerikcarto.nyc_isos_copy  \n\t\tWHERE \n         \tdata_range = 1800\n         LIMIT 1\n        )\n )\n*/",
                 "layer_name": "nyc_census_final",
@@ -135,7 +135,7 @@
               "order": 2,
               "visible": true,
               "options": {
-                "sql": "select * from nyc_subway_stations_l_isos",
+                "sql": "select * from nerikcarto.nyc_subway_stations_l_isos WHERE station_id = 94\n",
                 "layer_name": "nyc_subway_stations_l_isos",
                 "cartocss": "/** simple visualization */\n\n#nyc_isos_copy{\n  polygon-opacity: 0;\n  line-color: #A53ED5;\n  line-width: 3;\n  line-opacity: 1;\n}\n#nyc_isos_copy::lbl{\n  text-name: [data_range]/60 + 'm. walking';\n  text-face-name: 'DejaVu Sans Bold';\n  text-size: 11;\n  text-label-position-tolerance: 10;\n  text-halo-fill: #170F10;\n  text-halo-radius: 2;\n  text-allow-overlap: false;\n  text-placement: line;\n  text-placement-type: simple;\n  text-fill: #fff;\n\n}",
                 "cartocss_version": "2.1.1",
@@ -144,7 +144,7 @@
               }
             },
             {
-              "id": "b1ee206b-4cd5-4b64-967f-50721d2f9b7a",
+              "id": "494bef04-c4e3-40bb-bdf3-7284cd020684",
               "type": "CartoDB",
               "infowindow": {
                 "fields": [],
@@ -171,9 +171,9 @@
               "order": 3,
               "visible": true,
               "options": {
-                "sql": "SELECT * FROM nerikcarto.nyc_subway_stations WHERE line like '%L%'\n",
-                "layer_name": "nyc_subway_stations",
-                "cartocss": "/** simple visualization */\n\n#nyc_subway_stations{\n  marker-fill-opacity: 0.9;\n  marker-line-color: #FFF;\n  marker-line-width: 1;\n  marker-line-opacity: 1;\n  marker-placement: point;\n  marker-type: ellipse;\n  marker-width: 10;\n  marker-fill: #229A00;\n  marker-allow-overlap: true;\n}",
+                "sql": "select\n    nerikcarto.nyc_dots_500.cartodb_id,\n    nerikcarto.nyc_dots_500.the_geom,\n    nerikcarto.nyc_dots_500.the_geom_webmercator\n    FROM nerikcarto.nyc_dots_500, nerikcarto.nyc_subway_stations_l_isos\n    WHERE\n    ST_Within(\n    nerikcarto.nyc_dots_500.the_geom,\n    (SELECT\n    the_geom\n    FROM\n    nerikcarto.nyc_subway_stations_l_isos\n    WHERE\n    data_range = 1200\n    AND\n    station_id = 94\n    LIMIT 1\n    )\n    )",
+                "layer_name": "nyc_dots_500",
+                "cartocss": "/** simple visualization */\n\n#undefined_copy{\n  marker-fill-opacity: 1;\n  marker-line-width: 0;\n  marker-placement: point;\n  marker-type: ellipse;\n  marker-width: 2;\n  marker-fill: #5CA2D1;\n  marker-allow-overlap: true;\n}",
                 "cartocss_version": "2.1.1",
                 "interactivity": "cartodb_id",
                 "table_name": "\"\"."
