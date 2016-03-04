@@ -5,10 +5,10 @@
   <title>Deep-Insights.js</title>
   <meta name=viewport content="width=device-width initial-scale=1">
   <link rel="stylesheet" href="lib/themes/css/deep-insights.css" />
+  <link rel="stylesheet" href="lib/rangeslider.css" />
   <link rel="shortcut icon" href="favicon.ico" />
   <script src="lib/deep-insights.uncompressed.js"></script>
-  <script src="vis.js"></script>
-  <script src="index.js"></script>
+  <script src="lib/rangeslider.min.js"></script>
   <script src="//localhost:9096"></script>
   <style type="text/css">
     html, body {
@@ -26,37 +26,75 @@
   </style>
 </head>
 <body>
+  <div id="dashboard"></div>
+  <div class="CDB-Widget CDB-Widget--light js-iso-selector" style="display: block;">
+    <div class="CDB-Widget-body">
+      <div class="CDB-Widget-header js-header">
+        <div class="CDB-Widget-title CDB-Widget-contentSpaced">
+          <h3 class="CDB-Text CDB-Size-large u-ellipsis js-title">Max walking distance</h3>
+        </div>
+      </div>
+      <div class="CDB-Widget-content">
+           <!--<input
+              type="range"
+              min="10"
+              max="1000"
+              step="10"
+              value="300"
+              style="-moz-appearance: slider-horizontal; -webkit-appearance: slider-horizontal; appearance: slider-horizontal; "  >-->
+
+               <select class="js-distance">
+                 <option value="120">2 m. walking</option>
+                 <option value="300">5 m. walking</option>
+                 <option value="600">10 m. walking</option>
+                 <option value="900">15 m. walking</option>
+                 <option value="1200" selected>20 m. walking</option>
+               </select>
+      </div>
+    </div>
+  </div>
   <script type="text/template" id="sql_blockgroups">
-    select
-    nerikcarto.nyc_census_final.cartodb_id,
-    nerikcarto.nyc_census_final.the_geom,
-    nerikcarto.nyc_census_final.total_pop,
-    nerikcarto.nyc_census_final.median_age,
-    nerikcarto.nyc_census_final.per_capita_income,
-    nerikcarto.nyc_census_final.the_geom_webmercator
-    FROM nerikcarto.nyc_census_final
+    SELECT
+    nerikcarto.nyc_census_clipped.cartodb_id,
+    nerikcarto.nyc_census_clipped.the_geom,
+    nerikcarto.nyc_census_clipped.total_pop,
+    nerikcarto.nyc_census_clipped.median_age,
+    nerikcarto.nyc_census_clipped.per_capita_income,
+    nerikcarto.nyc_census_clipped.the_geom_webmercator
+    FROM
+    nerikcarto.nyc_census_clipped
     WHERE
     ST_Intersects(
-    nerikcarto.nyc_census_final.the_geom,
-    (SELECT
-    the_geom
-    FROM
-    nerikcarto.nyc_subway_stations_l_isos
-    WHERE
-    data_range = 1200
-    AND
-    station_id = <%= station_id %>
-    LIMIT 1
+    nerikcarto.nyc_census_clipped.the_geom,
+      (SELECT
+      the_geom
+      FROM
+      nerikcarto.nyc_subway_stations_l_isos
+      WHERE
+      data_range = <%= data.range %>
+      AND
+      station_id = <%= data.station_id %>
+      LIMIT 1
+      )
     )
-    )
+    <% Object.keys(data.hists).forEach(function(column) { %>
+      AND <%= column %> BETWEEN <%= data.hists[column].min %> AND <%= data.hists[column].max %>
+    <%})%>
+
   </script>
   <script type="text/template" id="sql_dots">
-    select
+    SELECT
     nerikcarto.nyc_dots_500_2.cartodb_id,
     nerikcarto.nyc_dots_500_2.the_geom,
     nerikcarto.nyc_dots_500_2.pop_per_point,
-    nerikcarto.nyc_dots_500_2.the_geom_webmercator
+    nerikcarto.nyc_dots_500_2.the_geom_webmercator,
+    c.median_age,
+    c.per_capita_income
     FROM nerikcarto.nyc_dots_500_2
+    INNER JOIN
+      nerikcarto.nyc_census_clipped c
+    ON
+      nerikcarto.nyc_dots_500_2.geoid = c.geoid
     WHERE
     ST_Within(
     nerikcarto.nyc_dots_500_2.the_geom,
@@ -65,13 +103,14 @@
     FROM
     nerikcarto.nyc_subway_stations_l_isos
     WHERE
-    data_range = 1200
+    data_range = <%= range %>
     AND
     station_id = <%= station_id %>
     LIMIT 1
     )
     )
   </script>
-  <div id="dashboard"></div>
+  <script src="vis.js"></script>
+  <script src="index.js"></script>
 </body>
 </html>

@@ -21,7 +21,7 @@ window.myapp.vis = {
     ]
   ],
   "center": "[40.72872225387065, -73.95009040832518]",
-  "zoom": 15,
+  "zoom": 16,
   "updated_at": "2016-03-03T14:17:55+00:00",
   "layers": [
     {
@@ -29,7 +29,7 @@ window.myapp.vis = {
         "visible": true,
         "type": "Tiled",
         "default": "true",
-        "url": "http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png",
+        "url": "https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png",
         "subdomains": "abcd",
         "minZoom": "0",
         "maxZoom": "18",
@@ -37,9 +37,9 @@ window.myapp.vis = {
         "className": "httpsbasemapscartocdncomlight_nolabelszxypng",
         "attribution": "&copy; <a href=\"http://www.openstreetmap.org/copyright\">OpenStreetMap</a> contributors &copy; <a href=\"http://cartodb.com/attributions\">CartoDB</a>",
         "labels": {
-          "url": "http://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}.png"
+          "url": "https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png"
         },
-        "urlTemplate": "http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png",
+        "urlTemplate": "https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png",
         "id": "827f151e-7ad8-4e11-ad96-4f5325315c1d",
         "order": 0
       },
@@ -99,11 +99,11 @@ window.myapp.vis = {
                 "visible": true
               },
               "order": 1,
-              "visible": false,
+              "visible": true,
               "options": {
                 "sql": "/*\n\nWITH isolines AS (\n\tSELECT cdb_isochrone(\n    \tST_GeomFromText('POINT(-73.998584 40.719)',4326),\n      \t'walk',\n      \tArray[300,600,900,1200]\n      \n    ) iso\n)\n\n\n\nSELECT \nnerikcarto.nyc_census_final.cartodb_id,\nnerikcarto.nyc_census_final.the_geom,\nnerikcarto.nyc_census_final.total_pop,\nnerikcarto.nyc_census_final.the_geom_webmercator \nFROM \nnerikcarto.nyc_census_final, isolines \nWHERE \n\tST_Intersects(\n  \t\tnerikcarto.nyc_census_final.the_geom,\n  \t\t(SELECT \n         \t(isolines.iso).the_geom\t\n         FROM \n         \tisolines  \n\t\tWHERE \n         \t(isolines.iso).data_range = 1200\n         LIMIT 1\n        )\n )\n\n*/\n\nselect\nnerikcarto.nyc_census_final.cartodb_id,\nnerikcarto.nyc_census_final.the_geom,\nnerikcarto.nyc_census_final.total_pop,\nnerikcarto.nyc_census_final.median_age,\nnerikcarto.nyc_census_final.per_capita_income,\nnerikcarto.nyc_census_final.the_geom_webmercator \nFROM nerikcarto.nyc_census_final, nerikcarto.nyc_isos_copy\n/*\nWHERE \n\tST_Intersects(\n  \t\tnerikcarto.nyc_census_final.the_geom,\n  \t\t(SELECT \n         \tthe_geom\t\n         FROM \n         \tnerikcarto.nyc_isos_copy  \n\t\tWHERE \n         \tdata_range = 1800\n         LIMIT 1\n        )\n )\n*/",
                 "layer_name": "nyc_census_final",
-                "cartocss": "/** simple visualization */\n\n#nyc_census_final{\n  polygon-fill: #FF6600;\n  polygon-opacity: 0.7;\n  line-color: #FFF;\n  line-width: 0.5;\n  line-opacity: 1;\n}",
+                "cartocss": "/** simple visualization */\n\n#nyc_census_final{\n  polygon-fill: #f0f;\n  polygon-opacity: 0.1;\n  line-color: #f0f;\n  line-width: 0.5;\n  line-opacity: .5;\n}",
                 "cartocss_version": "2.1.1",
                 "interactivity": "cartodb_id",
                 "table_name": "\"\"."
@@ -185,28 +185,6 @@ window.myapp.vis = {
         },
         "attribution": ""
       }
-    },
-    {
-      "options": {
-        "visible": true,
-        "type": "Tiled",
-        "default": "true",
-        "url": "http://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}.png",
-        "subdomains": "abcd",
-        "minZoom": "0",
-        "maxZoom": "18",
-        "attribution": "&copy; <a href=\"http://www.openstreetmap.org/copyright\">OpenStreetMap</a> contributors &copy; <a href=\"http://cartodb.com/attributions\">CartoDB</a>",
-        "urlTemplate": "http://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}.png",
-        "name": "Positron Labels",
-        "id": "57c54468-51cc-4a5c-a519-5bf3b0aa3445",
-        "className": "httpsbasemapscartocdncomlight_only_labelszxypng",
-        "order": 5
-      },
-      "infowindow": null,
-      "tooltip": null,
-      "id": "57c54468-51cc-4a5c-a519-5bf3b0aa3445",
-      "order": 5,
-      "type": "tiled"
     }
   ],
   "overlays": [

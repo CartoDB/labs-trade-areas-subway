@@ -5,6 +5,18 @@
 
     window.myapp.layers = ["16936c14-22ce-40bd-8be8-a5b3575a5c11","","","494bef04-c4e3-40bb-bdf3-7284cd020684"];
 
+    window.myapp.sqlTemplates = {
+      blockgroups: cartodb._.template(cdb.$('#sql_blockgroups').html()),
+      iso: cartodb._.template('select * from nyc_subway_stations_l_isos WHERE station_id = <%= station_id %> AND data_range <= <%= range %>'),
+      dots: cartodb._.template( cdb.$('#sql_dots').html() )
+    }
+    window.myapp.station_id = 85;
+    window.myapp.range = 1200;
+    window.myapp.hists = {};
+    window.myapp.vis.layers[1].options.layer_definition.layers[0].options.sql = window.myapp.sqlTemplates.blockgroups({data:{station_id: myapp.station_id, range: myapp.range, hists:myapp.hists}})
+    window.myapp.vis.layers[1].options.layer_definition.layers[1].options.sql = window.myapp.sqlTemplates.iso({station_id: myapp.station_id, range: myapp.range})
+    window.myapp.vis.layers[1].options.layer_definition.layers[2].options.sql = window.myapp.sqlTemplates.dots({station_id: myapp.station_id, range: myapp.range})
+    console.log(window.myapp.vis)
     window.myapp.diJSON = cdb._.extend(window.myapp.vis,
         {
         "title": "myapp Ads Demo",
@@ -36,26 +48,48 @@
               "type": "formula",
               "title": "# people within distance",
               "layer_id": window.myapp.layers[3],
-              'show_stats': true,
               "options": {
                   "type": "formula",
                   "column": "pop_per_point",
                   "operation": "sum",
                   "suffix": '',
+                  "sync": false,
               }
           },
           // {
           //     "type": "histogram",
-          //     "title": "Median age",
-          //     "layer_id": window.myapp.layers[0],
+          //     "title": "Are we close to station 85?",
+          //     "layer_id": window.myapp.layers[3],
+          //     'show_stats': false,
           //     "options": {
           //         "type": "histogram",
           //         "column": "median_age",
-          //         "sync": true,
-          //         "bins": 10
+          //         "sync": false,
           //     }
           // },
-          //
+          {
+              "type": "histogram",
+              "title": "Block group per capita income",
+              "layer_id": window.myapp.layers[3],
+              'show_stats': false,
+              "options": {
+                  "type": "histogram",
+                  "column": "per_capita_income",
+                  "sync": false,
+              }
+          },
+          {
+              "type": "histogram",
+              "title": "Block group median age",
+              "layer_id": window.myapp.layers[3],
+              'show_stats': false,
+              "options": {
+                  "type": "histogram",
+                  "column": "median_age",
+                  "sync": false,
+              }
+          },
+
           // {
           //     "type": "histogram",
           //     "title": "Per capita income",
@@ -157,13 +191,8 @@
     });
 
 
-
-
-
-    // cartodb.vis.Vis.prototype.centerMapToOrigin = function () {}
-    // cartodb.vis.Vis.prototype.instantiateMap = function () {}
     window.onload = function () {
-      // try {
+
 
         myapp.dash = cartodb.deepInsights.createDashboard('#dashboard', myapp.diJSON,  {
          no_cdn: false,
@@ -172,26 +201,70 @@
        })
         .vis
         .done(function (vis, layers) {
-          var sql_iso = cartodb._.template('select * from nyc_subway_stations_l_isos WHERE station_id = <%= station_id %>');
-            // console.log(cartodb.$('#sql_blockgroups') )
-          var sql_blockgroups = cartodb._.template( cdb.$('#sql_blockgroups').html() );
-          var sql_dots = cartodb._.template( cdb.$('#sql_dots').html() );
-
           window.myapp.wcontainer = cdb.$('#' + vis.$el.context.id + ' .CDB-Widget-canvasInner').get(0);
           window.myapp.mylayers = layers.models;
           window.myapp.widgets = vis._dataviewsCollection.models;
           window.myapp.Lmap = vis.getNativeMap();
 
-          // your code!
-          console.log(layers)
-          console.log(vis)
-
           var blockgroups = layers.models[1];
           var iso = layers.models[2];
           var dots = layers.models[3];
-          console.log(dots)
+
+          // inject dist selector
+          var distSelector = cdb.$('.js-iso-selector');
+          distSelector.insertAfter(cdb.$('.CDB-Widget').eq(0))
+
+          // cdb.$('input[type="range"]').rangeslider({
+          //     polyfill: false,
+          //   })
+
+          cdb.$('.js-distance').on('change', function(e) {
+            myapp.range = parseInt(e.target.value);
+            updateAll();
+          })
+
+          var updateAll = function(station_id, range) {
+            iso.set('sql', window.myapp.sqlTemplates.iso({station_id: myapp.station_id, range: myapp.range}));
+
+            var dots_sql_tpl = window.myapp.sqlTemplates.dots({station_id: myapp.station_id, range: myapp.range});
+            dots.set('sql', dots_sql_tpl);
+
+            var blockgroups_sql_tpl = window.myapp.sqlTemplates.blockgroups({data:{station_id: myapp.station_id, range: myapp.range, hists:myapp.hists}});
+            blockgroups.set('sql', blockgroups_sql_tpl);
+          }
 
 
+          // listen to histogram changes
+          var onHistogramChange = function (model) {
+            var min = model.filter.get('min');
+            var max = model.filter.get('max');
+
+            if (min && max) {
+              var column = model.get('column');
+              myapp.hists[column] = {
+                column: column,
+                min: min,
+                max: max,
+              };
+              var data = {
+                station_id: myapp.station_id,
+                range: myapp.range,
+                hists: myapp.hists
+              };
+
+              var blockgroups_sql_tpl = window.myapp.sqlTemplates.blockgroups({
+                data: data
+              });
+              console.log(data)
+              console.log(blockgroups_sql_tpl)
+              blockgroups.set('sql', blockgroups_sql_tpl);
+            }
+          };
+
+          myapp.dash._dataviewsCollection.models[1].on('change', onHistogramChange);
+          myapp.dash._dataviewsCollection.models[2].on('change', onHistogramChange);
+
+          //fetch metro stations
           myapp.sql.execute('SELECT * FROM nerikcarto.nyc_subway_stations WHERE line like \'%L%\'', {}, {
               format: 'geoJSON'
           })
@@ -207,27 +280,15 @@
                 layer.setIcon(myicon);
                 layer.on('click', function (event) {
 
-                  var station_id = event.target.feature.properties.cartodb_id;
+                  myapp.station_id = event.target.feature.properties.cartodb_id;
 
-                  iso.set('sql', sql_iso({station_id: station_id}));
-
-                  // var blockgroups_sql_tpl = sql_blockgroups({station_id: station_id});
-                  // console.log(blockgroups_sql_tpl)
-                  // blockgroups.set('sql', blockgroups_sql_tpl);
-                  var dots_sql_tpl = sql_dots({station_id: station_id});
-                  console.log(dots_sql_tpl)
-                  console.log(dots.get('sql'))
-                  dots.set('sql', dots_sql_tpl);
-
+                  updateAll();
 
                 })
               }
             }).addTo(myapp.Lmap)
           });
-
-
         });
-      // } catch (e) {}
     };
 
 })();

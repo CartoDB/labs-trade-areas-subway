@@ -78,3 +78,10 @@ select
 	pop_per_point,
   ST_Transform(the_geom, 3857) as the_geom_webmercator
 from dots
+
+
+
+
+# augment dots with iso
+ALTER TABLE nerikcarto.nyc_dots_500_2
+ADD station_85 integer
