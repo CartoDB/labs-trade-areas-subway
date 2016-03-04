@@ -56,3 +56,25 @@ INNER JOIN
 geoms
 ON
   geoms.geoid_clipped = c.geoid
+
+
+# dots
+WITH dots AS (
+  SELECT
+  	CDB_dot_density(
+    	the_geom,
+    	total_pop/20
+    ) as the_geom,
+  	20 as pop_per_point,
+  	geoid
+  FROM nerikcarto.nyc_census_clipped
+  WHERE
+GeometryType(the_geom) <> 'GEOMETRYCOLLECTION'
+)
+
+select
+  geoid,
+  the_geom,
+	pop_per_point,
+  ST_Transform(the_geom, 3857) as the_geom_webmercator
+from dots
