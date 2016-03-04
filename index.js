@@ -207,8 +207,8 @@
           window.myapp.Lmap = vis.getNativeMap();
 
           var blockgroups = layers.models[1];
-          var iso = layers.models[2];
-          var dots = layers.models[3];
+          var iso = layers.models[3];
+          var dots = layers.models[4];
 
           // inject dist selector
           var distSelector = cdb.$('.js-iso-selector');

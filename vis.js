@@ -109,6 +109,44 @@ window.myapp.vis = {
                 "table_name": "\"\"."
               }
             },
+
+            {
+            id: "c5c49c94-ed73-4d3e-8b69-e13131288db7",
+            type: "CartoDB",
+            infowindow: {
+            fields: [ ],
+            template_name: "table/views/infowindow_light",
+            template: "",
+            alternative_names: { },
+            width: 226,
+            maxHeight: 180
+            },
+            tooltip: {
+            fields: [ ],
+            template_name: "tooltip_light",
+            template: "",
+            alternative_names: { },
+            maxHeight: 180
+            },
+            legend: {
+            type: "none",
+            show_title: false,
+            title: "",
+            template: "",
+            visible: true
+            },
+            order: 4,
+            visible: true,
+            options: {
+            sql: "select * from nyc_subway_l",
+            layer_name: "nyc_subway_l",
+            cartocss: "/** simple visualization */ #nyc_subway_l{ line-color: #aaa; line-width: 5; line-opacity: 1; }",
+            cartocss_version: "2.1.1",
+            interactivity: "cartodb_id",
+            table_name: ""
+            }
+          },
+
             {
               "id": "824fb056-e7f0-4f55-a238-cdbd194b51dc",
               "type": "CartoDB",
@@ -181,6 +219,7 @@ window.myapp.vis = {
                 "table_name": "\"\"."
               }
             }
+
           ]
         },
         "attribution": ""
