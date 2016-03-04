@@ -218,8 +218,10 @@
           //     polyfill: false,
           //   })
 
-          cdb.$('.js-distance').on('change', function(e) {
+          cdb.$('.js-Range').on('change', function(e) {
             myapp.range = parseInt(e.target.value);
+            var mins = myapp.range / 60 + " min"
+            cdb.$('.js-Range-val').text(mins);
             updateAll();
           })
 
