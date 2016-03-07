@@ -31,7 +31,7 @@ window.myapp.vis ={
         "name": "Positron (labels below)",
         "className": "httpscartodbbasemapssglobalsslfastlynetlight_allzxypng",
         "base_type": "default",
-        "urlTemplate": "https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png",
+        "urlTemplate": "https://{s}.maps.nlp.nokia.com/maptile/2.1/maptile/newest/reduced.day/{z}/{x}/{y}/256/png8?lg=eng&token=A7tBPacePg9Mj_zghvKt9Q&app_id=KuYppsdXZznpffJsKT24",
         "minZoom": "0",
         "maxZoom": "18",
         "attribution": "&copy; <a href=\"http://www.openstreetmap.org/copyright\">OpenStreetMap</a> contributors &copy; <a href=\"http://cartodb.com/attributions\">CartoDB</a>",
