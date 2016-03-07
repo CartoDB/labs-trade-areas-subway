@@ -85,3 +85,38 @@ from dots
 # augment dots with iso
 ALTER TABLE nerikcarto.nyc_dots_500_2
 ADD station_85 integer
+
+
+
+
+# 1st ethnic group
+UPDATE
+nerikcarto.nyc_census_clipped
+SET
+ethnic_1st =
+(
+  CASE
+  WHEN
+  	white_pop > black_pop AND white_pop > asian_pop AND white_pop > hispanic_or_latino_pop
+  THEN
+    'white'
+
+  WHEN
+  	black_pop > white_pop AND black_pop > asian_pop AND black_pop > hispanic_or_latino_pop
+  THEN
+    'black'
+
+  WHEN
+  	asian_pop > white_pop AND asian_pop > black_pop AND asian_pop > hispanic_or_latino_pop
+  THEN
+    'asian'
+
+    WHEN
+  	hispanic_or_latino_pop > white_pop AND hispanic_or_latino_pop > asian_pop AND hispanic_or_latino_pop > black_pop
+  THEN
+    'hispanic or latino'
+
+  ELSE
+    'other'
+  END
+)

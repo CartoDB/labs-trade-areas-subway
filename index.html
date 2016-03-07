@@ -18,8 +18,8 @@
       margin: 0;
     }
     .subway_station {
-      width: 8px !important;
-      height: 8px !important;
+      width: 10px !important;
+      height: 10px !important;
       background: #fff;
       border-radius: 99px;
       border: 2.5px solid #000;
@@ -113,7 +113,7 @@
       background: #3aa9e3;
     }
     .Range-period {
-      margin-left: 11.25%;
+      margin-left: 18%;
       color: #979EA1;
       font-weight: 400;
       font-size: 10px;
@@ -144,12 +144,11 @@
       </div>
       <div class="CDB-Widget-content">
         <div class="CDB-Widget-filter CDB-Widget-contentSpaced">
-          <p class="CDB-Text CDB-Size-small is-semibold u-upperCase js-Range-val">2 min</p>
+          <p class="CDB-Text CDB-Size-small is-semibold u-upperCase js-Range-val">20 min</p>
         </div>
         <div class="Range-wrapper">
-          <input id="Range" class="Range js-Range" type="range" min="120" max="1200" step="60" value="120" />
+          <input id="Range" class="Range js-Range" type="range" min="300" max="1200" step="300" value="1200" />
           <ul class="u-ilist">
-            <li class="Range-period">2 min</li>
             <li class="Range-period">5 min</li>
             <li class="Range-period">10 min</li>
             <li class="Range-period">15 min</li>
@@ -166,6 +165,7 @@
     nerikcarto.nyc_census_clipped.total_pop,
     nerikcarto.nyc_census_clipped.median_age,
     nerikcarto.nyc_census_clipped.per_capita_income,
+    nerikcarto.nyc_census_clipped.ethnic_1st,
     nerikcarto.nyc_census_clipped.the_geom_webmercator
     FROM
     nerikcarto.nyc_census_clipped
@@ -183,41 +183,116 @@
       LIMIT 1
       )
     )
-    <% Object.keys(data.hists).forEach(function(column) { %>
-      AND <%= column %> BETWEEN <%= data.hists[column].min %> AND <%= data.hists[column].max %>
-    <%})%>
+
 
   </script>
   <script type="text/template" id="sql_dots">
-    SELECT
-    nerikcarto.nyc_dots_500_2.cartodb_id,
-    nerikcarto.nyc_dots_500_2.the_geom,
-    nerikcarto.nyc_dots_500_2.pop_per_point,
-    nerikcarto.nyc_dots_500_2.the_geom_webmercator,
-    c.median_age,
-    c.per_capita_income
-    FROM nerikcarto.nyc_dots_500_2
-    INNER JOIN
-      nerikcarto.nyc_census_clipped c
-    ON
-      nerikcarto.nyc_dots_500_2.geoid = c.geoid
-    WHERE
-    ST_Within(
-    nerikcarto.nyc_dots_500_2.the_geom,
-    (SELECT
+    select
+    nerikcarto.nyc_dots_500.cartodb_id,
+    nerikcarto.nyc_dots_500.the_geom,
+    nerikcarto.nyc_dots_500.the_geom_webmercator,
+	ST_Within(
+    	nerikcarto.nyc_dots_500.the_geom,
+    	(
+  SELECT
     the_geom
-    FROM
-    nerikcarto.nyc_subway_stations_l_isos
-    WHERE
-    data_range = <%= range %>
-    AND
-    station_id = <%= station_id %>
-    LIMIT 1
-    )
-    )
-  </script>
-  <script type="text/template" id="css_dots">
+  FROM
+  	nerikcarto.nyc_subway_stations_l_isos
+  WHERE
+  	data_range = <%= range %>
+  AND
+  	station_id = <%= station_id %>
+  LIMIT 1
+)
+    ) inside
 
+FROM nerikcarto.nyc_dots_500
+
+
+  </script>
+  <script type="text/template" id="css_per_capita_income">
+    #nyc_census_clipped{
+      polygon-fill: #FFFFB2;
+      polygon-opacity: 0.8;
+      line-color: #FFF;
+      line-width: 0.5;
+      line-opacity: 1;
+    }
+    #nyc_census_clipped [ per_capita_income <= 369260] {
+       polygon-fill: #B10026;
+    }
+    #nyc_census_clipped [ per_capita_income <= 57496] {
+       polygon-fill: #E31A1C;
+    }
+    #nyc_census_clipped [ per_capita_income <= 40065] {
+       polygon-fill: #FC4E2A;
+    }
+    #nyc_census_clipped [ per_capita_income <= 31793] {
+       polygon-fill: #FD8D3C;
+    }
+    #nyc_census_clipped [ per_capita_income <= 25329] {
+       polygon-fill: #FEB24C;
+    }
+    #nyc_census_clipped [ per_capita_income <= 20182] {
+       polygon-fill: #FED976;
+    }
+    #nyc_census_clipped [ per_capita_income <= 14978] {
+       polygon-fill: #FFFFB2;
+    }
+  </script>
+  <script type="text/template" id="css_median_age">
+    #nyc_census_clipped{
+  polygon-fill: #F1EEF6;
+  polygon-opacity: 0.8;
+  line-color: #FFF;
+  line-width: 0.5;
+  line-opacity: 1;
+}
+#nyc_census_clipped [ median_age <= 85.8] {
+   polygon-fill: #91003F;
+}
+#nyc_census_clipped [ median_age <= 58.9] {
+   polygon-fill: #CE1256;
+}
+#nyc_census_clipped [ median_age <= 51.3] {
+   polygon-fill: #E7298A;
+}
+#nyc_census_clipped [ median_age <= 44] {
+   polygon-fill: #DF65B0;
+}
+#nyc_census_clipped [ median_age <= 36.8] {
+   polygon-fill: #C994C7;
+}
+#nyc_census_clipped [ median_age <= 29.5] {
+   polygon-fill: #D4B9DA;
+}
+#nyc_census_clipped [ median_age <= 22.2] {
+   polygon-fill: #F1EEF6;
+}
+</script>
+  <script type="text/template" id="css_ethnic_1st">
+    #nyc_census_clipped {
+   polygon-opacity: 0.7;
+   line-color: #FFF;
+   line-width: 0.5;
+   line-opacity: 1;
+}
+
+#nyc_census_clipped[ethnic_1st="asian"] {
+   polygon-fill: #fe528d;
+}
+#nyc_census_clipped[ethnic_1st="black"] {
+   polygon-fill: #18a79e;
+}
+#nyc_census_clipped[ethnic_1st="hispanic or latino"] {
+   polygon-fill: #ff8a00;
+}
+#nyc_census_clipped[ethnic_1st="other"] {
+   polygon-fill: #cccccc;
+}
+#nyc_census_clipped[ethnic_1st="white"] {
+   polygon-fill: #a0a4d5;
+}
   </script>
   <script src="vis.js"></script>
   <script src="index.js"></script>

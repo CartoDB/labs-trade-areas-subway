@@ -3,19 +3,24 @@
 
     window.myapp = window.myapp || {};
 
-    window.myapp.layers = ["16936c14-22ce-40bd-8be8-a5b3575a5c11","","","494bef04-c4e3-40bb-bdf3-7284cd020684"];
-
     window.myapp.sqlTemplates = {
       blockgroups: cartodb._.template(cdb.$('#sql_blockgroups').html()),
       iso: cartodb._.template('select * from nyc_subway_stations_l_isos WHERE station_id = <%= station_id %> AND data_range <= <%= range %>'),
       dots: cartodb._.template( cdb.$('#sql_dots').html() )
     }
+
+    window.myapp.cssTemplates = {
+      per_capita_income: cartodb._.template(cdb.$('#css_per_capita_income').html()),
+      median_age: cartodb._.template(cdb.$('#css_median_age').html()),
+    }
+
     window.myapp.station_id = 85;
     window.myapp.range = 1200;
     window.myapp.hists = {};
+
     window.myapp.vis.layers[1].options.layer_definition.layers[0].options.sql = window.myapp.sqlTemplates.blockgroups({data:{station_id: myapp.station_id, range: myapp.range, hists:myapp.hists}})
-    window.myapp.vis.layers[1].options.layer_definition.layers[1].options.sql = window.myapp.sqlTemplates.iso({station_id: myapp.station_id, range: myapp.range})
-    window.myapp.vis.layers[1].options.layer_definition.layers[2].options.sql = window.myapp.sqlTemplates.dots({station_id: myapp.station_id, range: myapp.range})
+    window.myapp.vis.layers[1].options.layer_definition.layers[1].options.sql = window.myapp.sqlTemplates.dots({station_id: myapp.station_id, range: myapp.range})
+    window.myapp.vis.layers[1].options.layer_definition.layers[2].options.sql = window.myapp.sqlTemplates.iso({station_id: myapp.station_id, range: myapp.range})
     console.log(window.myapp.vis)
     window.myapp.diJSON = cdb._.extend(window.myapp.vis,
         {
@@ -33,27 +38,17 @@
             "force_cors": true
         },
         "widgets": [
-          // {
-          //     "type": "formula",
-          //     "title": "Total amount",
-          //     "layer_id": window.myapp.layers[0],
-          //     "options": {
-          //         "type": "formula",
-          //         "column": "cartodb_id",
-          //         "operation": "count",
-          //         "suffix": ''
-          //     }
-          // },
+
           {
               "type": "formula",
               "title": "# people within distance",
-              "layer_id": window.myapp.layers[3],
+              "layer_id": window.myapp.vis.layers[1].options.layer_definition.layers[0].id,
               "options": {
                   "type": "formula",
-                  "column": "pop_per_point",
+                  "column": "total_pop",
                   "operation": "sum",
                   "suffix": '',
-                  "sync": false,
+                  "sync": true,
               }
           },
           // {
@@ -70,117 +65,39 @@
           {
               "type": "histogram",
               "title": "Block group per capita income",
-              "layer_id": window.myapp.layers[3],
+              "layer_id": window.myapp.vis.layers[1].options.layer_definition.layers[0].id,
               'show_stats': false,
               "options": {
                   "type": "histogram",
                   "column": "per_capita_income",
-                  "sync": false,
+                  "sync": true,
+                  "displayShadowBars": false
               }
           },
           {
               "type": "histogram",
               "title": "Block group median age",
-              "layer_id": window.myapp.layers[3],
+              "layer_id": window.myapp.vis.layers[1].options.layer_definition.layers[0].id,
               'show_stats': false,
               "options": {
                   "type": "histogram",
                   "column": "median_age",
-                  "sync": false,
+                  "sync": true,
               }
           },
 
-          // {
-          //     "type": "histogram",
-          //     "title": "Per capita income",
-          //     "layer_id": window.myapp.layers[0],
-          //     "options": {
-          //         "type": "histogram",
-          //         "column": "per_capita_income",
-          //         "sync": true,
-          //         "bins": 10
-          //     }
-          // },
-          // {
-          //     "type": "histogram",
-          //     "title": "invehicle",
-          //     "layer_id": window.myapp.layers[0],
-          //     "options": {
-          //         "type": "histogram",
-          //         "column": "invehicle",
-          //         "sync": true,
-          //         "bins": 2
-          //     }
-          // }
-            /*
-            {
-                "type": "formula",
-                "title": "Total amount",
-                "layer_id": window.myapp.layers[i],
-                "options": {
-                    "type": "formula",
-                    "column": "amount",
-                    "operation": "sum",
-                    "suffix": ' €'
-                }
-            },
-
-            {
-                "type": "histogram",
-                "title": "Amount",
-                "layer_id": window.myapp.layers[j],
-                "options": {
-                    "type": "histogram",
-                    "column": "amount",
-                    "sync": true,
-                    "bins": 10
-                }
-            },
-
-            {
-                "type": "category",
-                "title": "Most popular players",
-                "layer_id": window.myapp.layers[k],
-                "options": {
-                    "type": "aggregation",
-                    "column": "player",
-                    "aggregation": "count",
-                    "aggregationColumn": "cartodb_id",
-                    "sync": true,
-                }
-            },
-
-            {
-                "layer_id": window.myapp.layers[m],
-                "type": "time-series",
-                "columnType": "number",
-                "column": "epoch_time",
-                // TODO initial request is hardcoded until the tiler can resolve this itself
-                // SELECT min(extract(epoch from eventdate)), max(extract(epoch from eventdate)) FROM toyota_leads
-                "options": {
-                    "bins": 256,
-                    "start": 1454621220,
-                    "end": 1454707618,
-                    "annotations": [
-                        {
-                            "time": 1454642819,
-                            "text": "Touchdown - Team 2",
-                            "icon": "img/team01.svg"
-                        },
-                        {
-                            "time": 1454664418,
-                            "text": "Touchdown - Team 1",
-                            "icon": "img/team02.svg"
-                        },
-                        {
-                            "time": 1454686017,
-                            "text": "Halftime",
-                            "icon": "img/halftime.svg"
-                        }
-                    ]
-                }
-            }
-            */
+          {
+              "type": "category",
+              "title": "Primary ethnic group",
+              "layer_id": window.myapp.vis.layers[1].options.layer_definition.layers[0].id,
+              "options": {
+                  "type": "aggregation",
+                  "column": "ethnic_1st",
+                  "aggregation": "count",
+                  "aggregationColumn": "cartodb_id",
+                  "sync": true,
+              }
+          },
         ]
     });
 
@@ -206,9 +123,10 @@
           window.myapp.widgets = vis._dataviewsCollection.models;
           window.myapp.Lmap = vis.getNativeMap();
 
+
           var blockgroups = layers.models[1];
           var iso = layers.models[3];
-          var dots = layers.models[4];
+          var dots = layers.models[2];
 
           // inject dist selector
           var distSelector = cdb.$('.js-iso-selector');
@@ -238,33 +156,59 @@
 
           // listen to histogram changes
           var onHistogramChange = function (model) {
-            var min = model.filter.get('min');
-            var max = model.filter.get('max');
+            // console.log(model)
+            if (model.get('histogram_sizes') === true) {
+              // console.log(model.get('column'));
 
-            if (min && max) {
-              var column = model.get('column');
-              myapp.hists[column] = {
-                column: column,
-                min: min,
-                max: max,
-              };
-              var data = {
-                station_id: myapp.station_id,
-                range: myapp.range,
-                hists: myapp.hists
-              };
-
-              var blockgroups_sql_tpl = window.myapp.sqlTemplates.blockgroups({
-                data: data
-              });
-              console.log(data)
-              console.log(blockgroups_sql_tpl)
-              blockgroups.set('sql', blockgroups_sql_tpl);
+              var col = model.get('column');
+              blockgroups.set('cartocss', window.myapp.cssTemplates[col]() );
             }
+            // var min = model.filter.get('min');
+            // var max = model.filter.get('max');
+            //
+            // if (min && max) {
+            //   var column = model.get('column');
+            //   myapp.hists[column] = {
+            //     column: column,
+            //     min: min,
+            //     max: max,
+            //   };
+            //   var data = {
+            //     station_id: myapp.station_id,
+            //     range: myapp.range,
+            //     hists: myapp.hists
+            //   };
+            //
+            //   var blockgroups_sql_tpl = window.myapp.sqlTemplates.blockgroups({
+            //     data: data
+            //   });
+            //   console.log(data)
+            //   console.log(blockgroups_sql_tpl)
+            //   blockgroups.set('sql', blockgroups_sql_tpl);
+            // }
           };
 
+          // cdb.$('.js-colors, ').on('click')
+
+          myapp.dash._dataviewsCollection.models[1].set('histogram_sizes', true);
           myapp.dash._dataviewsCollection.models[1].on('change', onHistogramChange);
           myapp.dash._dataviewsCollection.models[2].on('change', onHistogramChange);
+
+          myapp.dash._dataviewsCollection.models[3].on('change:data', function () {
+            console.log('BOOM');
+
+            var recolor = function (title, color) {
+                if (cdb.$('.CDB-Widget-listItemInner:has(.CDB-Text[title="' + title + '"]) .CDB-Widget-progressState').get(0) != void 0) {
+                    cdb.$('.CDB-Widget-listItemInner:has(.CDB-Text[title="' + title + '"]) .CDB-Widget-progressState').get(0).style.backgroundColor = color;
+                }
+            }
+            recolor('asian', '#fe528d');
+            recolor('black', '#18a79e');
+            recolor('hispanic or latino', '#ff8a00');
+            recolor('white', '#a0a4d5');
+            recolor('other', '#cccccc');
+          });
+
 
           //fetch metro stations
           myapp.sql.execute('SELECT * FROM nerikcarto.nyc_subway_stations WHERE line like \'%L%\'', {}, {
@@ -284,6 +228,10 @@
 
                   myapp.station_id = event.target.feature.properties.cartodb_id;
 
+                  // update cat widget colors
+
+
+                  // update map
                   updateAll();
 
                 })
