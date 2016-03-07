@@ -1,6 +1,6 @@
 window.myapp = window.myapp || {};
 
-window.myapp.vis ={
+window.myapp.vis = {
   "id": "f7e73372-dfbd-11e5-b9ef-0ea31932ec1d",
   "version": "0.1.0",
   "title": "nyc_census_final 1",
@@ -12,33 +12,33 @@ window.myapp.vis ={
   "map_provider": "leaflet",
   "bounds": [
     [
-      40.69446823687208,
-      -73.98128986358643
+      40.721209348747244,
+      -74.0022325515747
     ],
     [
-      40.73239708902571,
-      -73.92073631286621
+      40.74156703135052,
+      -73.94446849822998
     ]
   ],
-  "center": "[40.71343536379427, -73.95101308822632]",
+  "center": "[40.73138896860918, -73.97335052490234]",
   "zoom": 15,
-  "updated_at": "2016-03-07T11:28:01+00:00",
+  "updated_at": "2016-03-07T17:56:33+00:00",
   "layers": [
     {
       "options": {
         "visible": true,
         "type": "Tiled",
-        "name": "Positron (labels below)",
-        "className": "httpscartodbbasemapssglobalsslfastlynetlight_allzxypng",
+        "name": "Nokia Reduced Day",
+        "className": "nokia_reduced_day",
         "base_type": "default",
         "urlTemplate": "https://{s}.maps.nlp.nokia.com/maptile/2.1/maptile/newest/reduced.day/{z}/{x}/{y}/256/png8?lg=eng&token=A7tBPacePg9Mj_zghvKt9Q&app_id=KuYppsdXZznpffJsKT24",
         "minZoom": "0",
-        "maxZoom": "18",
-        "attribution": "&copy; <a href=\"http://www.openstreetmap.org/copyright\">OpenStreetMap</a> contributors &copy; <a href=\"http://cartodb.com/attributions\">CartoDB</a>",
-        "subdomains": "abcd",
+        "maxZoom": "20",
+        "attribution": "&copy;2016 HERE <a href=\"http://here.net/services/terms\" target=\"_blank\">Terms of use</a>",
+        "subdomains": "1234",
         "style": null,
         "read_only": true,
-        "category": "CartoDB",
+        "category": "Here",
         "order": 0,
         "id": "827f151e-7ad8-4e11-ad96-4f5325315c1d"
       },
@@ -85,65 +85,36 @@ window.myapp.vis ={
                 "maxHeight": 180
               },
               "legend": {
-                "type": "choropleth",
+                "type": "category",
                 "show_title": false,
                 "title": "",
                 "template": "",
                 "visible": true,
                 "items": [
                   {
-                    "name": "Left label",
+                    "name": "asian",
                     "visible": true,
-                    "value": "14978.00",
-                    "type": "text"
+                    "value": "#fe528d"
                   },
                   {
-                    "name": "Right label",
+                    "name": "black",
                     "visible": true,
-                    "value": "369260.00",
-                    "type": "text"
+                    "value": "#18a79e"
                   },
                   {
-                    "name": "Color",
+                    "name": "hispanic or latino",
                     "visible": true,
-                    "value": "#FFFFB2",
-                    "type": "color"
+                    "value": "#ff8a00"
                   },
                   {
-                    "name": "Color",
+                    "name": "other",
                     "visible": true,
-                    "value": "#FED976",
-                    "type": "color"
+                    "value": "#33A02C"
                   },
                   {
-                    "name": "Color",
+                    "name": "white",
                     "visible": true,
-                    "value": "#FEB24C",
-                    "type": "color"
-                  },
-                  {
-                    "name": "Color",
-                    "visible": true,
-                    "value": "#FD8D3C",
-                    "type": "color"
-                  },
-                  {
-                    "name": "Color",
-                    "visible": true,
-                    "value": "#FC4E2A",
-                    "type": "color"
-                  },
-                  {
-                    "name": "Color",
-                    "visible": true,
-                    "value": "#E31A1C",
-                    "type": "color"
-                  },
-                  {
-                    "name": "Color",
-                    "visible": true,
-                    "value": "#B10026",
-                    "type": "color"
+                    "value": "#a0a4d5"
                   }
                 ]
               },
@@ -152,7 +123,7 @@ window.myapp.vis ={
               "options": {
                 "sql": "select * from nyc_census_clipped",
                 "layer_name": "nyc_census_clipped",
-                "cartocss": "/** choropleth visualization */\n\n#nyc_census_clipped{\n  polygon-fill: #FFFFB2;\n  polygon-opacity: 0.5;\n  line-color: #FFF;\n  line-width: 0.5;\n  line-opacity: 1;\n}\n#nyc_census_clipped [ per_capita_income <= 369260] {\n   polygon-fill: #B10026;\n}\n#nyc_census_clipped [ per_capita_income <= 57496] {\n   polygon-fill: #E31A1C;\n}\n#nyc_census_clipped [ per_capita_income <= 40065] {\n   polygon-fill: #FC4E2A;\n}\n#nyc_census_clipped [ per_capita_income <= 31793] {\n   polygon-fill: #FD8D3C;\n}\n#nyc_census_clipped [ per_capita_income <= 25329] {\n   polygon-fill: #FEB24C;\n}\n#nyc_census_clipped [ per_capita_income <= 20182] {\n   polygon-fill: #FED976;\n}\n#nyc_census_clipped [ per_capita_income <= 14978] {\n   polygon-fill: #FFFFB2;\n}",
+                "cartocss": "/** category visualization */\n\n#nyc_census_clipped {\n   polygon-opacity: 0.7;\n   line-color: #FFF;\n   line-width: 0.5;\n   line-opacity: 1;\n}\n\n#nyc_census_clipped[ethnic_1st=\"asian\"] {\n   polygon-fill: #fe528d;\n}\n#nyc_census_clipped[ethnic_1st=\"black\"] {\n   polygon-fill: #18a79e;\n}\n#nyc_census_clipped[ethnic_1st=\"hispanic or latino\"] {\n   polygon-fill: #ff8a00;\n}\n#nyc_census_clipped[ethnic_1st=\"other\"] {\n   polygon-fill: #cccccc;\n}\n#nyc_census_clipped[ethnic_1st=\"white\"] {\n   polygon-fill: #a0a4d5;\n}",
                 "cartocss_version": "2.1.1",
                 "interactivity": "cartodb_id",
                 "table_name": "\"\"."
@@ -183,12 +154,12 @@ window.myapp.vis ={
                 "template": "",
                 "visible": true
               },
-              "order": 3,
+              "order": 2,
               "visible": true,
               "options": {
                 "sql": "select\n    nerikcarto.nyc_dots_500.cartodb_id,\n    nerikcarto.nyc_dots_500.the_geom,\n    nerikcarto.nyc_dots_500.the_geom_webmercator,\n\tST_Within(\n    \tnerikcarto.nyc_dots_500.the_geom,\n    \t(\n  SELECT\n    the_geom\n  FROM\n  \tnerikcarto.nyc_subway_stations_l_isos\n  WHERE\n  \tdata_range = 1200\n  AND\n  \tstation_id = 94\n  LIMIT 1\n)\n    ) inside\n\nFROM nerikcarto.nyc_dots_500\n    \n",
                 "layer_name": "nyc_dots_500_2_copy",
-                "cartocss": "/** simple visualization */\n  \n#nyc_dots_500_2_copy{\n  marker-fill-opacity: 0.25;\n  marker-line-color: #FFF;\n  marker-line-width: 0;\n  marker-line-opacity: 1;\n  marker-placement: point;\n  marker-type: ellipse;\n  marker-width: 2;\n  marker-fill: #000000;\n  marker-allow-overlap: true;\n}\n\n#nyc_dots_500_2_copy[inside=true]{\n  marker-fill-opacity: 1;\n}\n\n#nyc_dots_500_2_copy[zoom<15]{\n  marker-width: 1.5;\n}",
+                "cartocss": "/** simple visualization */\n  \n#nyc_dots_500_2_copy{\n  marker-fill-opacity: 0.25;\n  marker-line-color: #FFF;\n  marker-line-width: 0;\n  marker-line-opacity: 1;\n  marker-placement: point;\n  marker-type: ellipse;\n  marker-width: 3;\n  marker-fill: #000000;\n  marker-allow-overlap: true;\n}\n\n#nyc_dots_500_2_copy[inside=true]{\n  marker-fill-opacity: 1;\n}\n\n#nyc_dots_500_2_copy[zoom<15]{\n  marker-width: 1.5;\n}",
                 "cartocss_version": "2.1.1",
                 "interactivity": "cartodb_id",
                 "table_name": "\"\"."
@@ -219,12 +190,12 @@ window.myapp.vis ={
                 "template": "",
                 "visible": true
               },
-              "order": 4,
+              "order": 3,
               "visible": true,
               "options": {
                 "sql": "select * from nerikcarto.nyc_subway_stations_l_isos WHERE station_id = 94\n",
                 "layer_name": "nyc_subway_stations_l_isos",
-                "cartocss": "@col0: #320486;\n@col1: #25369c;\n@col2: #0072c4;\n@col3: #00abeb;\n@col4: #00d0ff;\n\n\n#nyc_isos_copy{\n  polygon-fill: #FFFFCC;\n  polygon-opacity: 0;\n  line-color: #FFF;\n  line-width: 2;\n  line-opacity: 1;\n}\n#nyc_isos_copy::lbl{\n  text-name: [data_range]/60 + 'm. walking';\n  text-face-name: 'DejaVu Sans Bold';\n  text-size: 12;\n  text-label-position-tolerance: 10;\n  text-halo-fill: #FFFFFF;\n  text-halo-radius: 2;\n  text-allow-overlap: true;\n  text-placement: line;\n  text-placement-type: simple;\n}\n\n\n  #nyc_isos_copy [ data_range <= 1200] {\n    polygon-fill: @col0;\n    line-color: @col0;\n  }\n  #nyc_isos_copy::lbl [ data_range <= 1200] {\n    text-fill: @col0;\n  }\n\n  #nyc_isos_copy [ data_range <= 900] {\n    polygon-fill: @col1;\n    line-color: @col1;\n  }\n  #nyc_isos_copy::lbl [ data_range <= 900] {\n    text-fill: @col1;\n  }\n\n  #nyc_isos_copy [ data_range <= 600] {\n    polygon-fill: @col2;\n    line-color: @col2;\n  }\n  #nyc_isos_copy::lbl [ data_range <= 600] {\n    text-fill: @col2;\n  }\n\n  #nyc_isos_copy [ data_range <= 300] {\n    polygon-fill: @col3;\n    line-color: @col3;\n  }\n  #nyc_isos_copy::lbl [ data_range <= 300] {\n    text-fill: @col3;\n  }\n\n  #nyc_isos_cop [ data_range <= 120] {\n    polygon-fill: @col4;\n    line-color: @col4;\n  }\n  #nyc_isos_copy::lbl [ data_range <= 120] {\n    text-fill: @col4;\n  }\n\n",
+                "cartocss": "@col0: #000000;\n@col1: #111111;\n@col2: #2d2d2d;\n@col3: #494948;\n@col4: #5c5c5c;\n\n\n#nyc_isos_copy{\n  polygon-fill: #FFFFCC;\n  polygon-opacity: 0;\n  line-color: #FFF;\n  line-opacity: 1;\n}\n#nyc_isos_copy::lbl{\n  text-name: [data_range]/60 + 'm. walking';\n  text-face-name: 'DejaVu Sans Bold';\n  text-size: 12;\n  text-label-position-tolerance: 10;\n  text-halo-fill: #FFFFFF;\n  text-halo-radius: 2;\n  text-allow-overlap: true;\n  text-placement: line;\n  text-placement-type: simple;\n}\n\n\n  #nyc_isos_copy [ data_range <= 1200] {\n    polygon-fill: @col0;\n    line-color: @col0;\n    line-width: 3;\n  }\n  #nyc_isos_copy::lbl [ data_range <= 1200] {\n    text-fill: @col0;\n  }\n\n  #nyc_isos_copy [ data_range <= 900] {\n    polygon-fill: @col1;\n    line-color: @col1;\n  line-width: 2.5;\n  }\n  #nyc_isos_copy::lbl [ data_range <= 900] {\n    text-fill: @col1;\n  }\n\n  #nyc_isos_copy [ data_range <= 600] {\n    polygon-fill: @col2;\n    line-color: @col2;\n  \tline-width: 2;\n  }\n  #nyc_isos_copy::lbl [ data_range <= 600] {\n    text-fill: @col2;\n  }\n\n  #nyc_isos_copy [ data_range <= 300] {\n    polygon-fill: @col3;\n    line-color: @col3;\n  line-width: 1.5;\n  }\n  #nyc_isos_copy::lbl [ data_range <= 300] {\n    text-fill: @col3;\n  }\n\n  #nyc_isos_cop [ data_range <= 120] {\n    polygon-fill: @col4;\n    line-color: @col4;\n  }\n  #nyc_isos_copy::lbl [ data_range <= 120] {\n    text-fill: @col4;\n  }\n\n",
                 "cartocss_version": "2.1.1",
                 "interactivity": "cartodb_id",
                 "table_name": "\"\"."
