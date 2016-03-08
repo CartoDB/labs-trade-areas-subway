@@ -275,6 +275,8 @@ FROM nerikcarto.nyc_dots_500
    polygon-fill: #F1EEF6;
 }
 </script>
+
+
 <script type="text/template" id="css_ethnic_1st">
     #nyc_census_clipped {
    polygon-opacity: 0.7;
@@ -299,6 +301,107 @@ FROM nerikcarto.nyc_dots_500
    polygon-fill: #a0a4d5;
 }
   </script>
+
+
+
+  <script type="text/template" id="css_dots">
+    #nyc_dots_500_2_copy{
+      marker-fill-opacity: 0.25;
+      marker-line-color: #FFF;
+      marker-line-width: 0;
+      marker-line-opacity: 1;
+      marker-placement: point;
+      marker-type: ellipse;
+      marker-width: 3;
+      marker-fill: #000000;
+      marker-allow-overlap: true;
+    }
+
+    #nyc_dots_500_2_copy[inside=true]{
+      marker-fill-opacity: 1;
+    }
+
+    #nyc_dots_500_2_copy[zoom<15]{
+      marker-width: 1.5;
+    }
+  </script>
+
+
+
+
+  <script type="text/template" id="css_iso">
+    @col0: #000000;
+    @col1: #111111;
+    @col2: #2d2d2d;
+    @col3: #494948;
+    @col4: #5c5c5c;
+
+
+    #nyc_isos_copy{
+      polygon-fill: #FFFFCC;
+      polygon-opacity: 0;
+      line-color: #FFF;
+      line-opacity: 1;
+    }
+    #nyc_isos_copy::lbl{
+      text-name: [data_range]/60 + 'm. walking';
+      text-face-name: 'DejaVu Sans Bold';
+      text-size: 12;
+      text-label-position-tolerance: 10;
+      text-halo-fill: #FFFFFF;
+      text-halo-radius: 2;
+      text-allow-overlap: true;
+      text-placement: line;
+      text-placement-type: simple;
+    }
+
+    #nyc_isos_copy [ data_range <= 1200] {
+      polygon-fill: @col0;
+      line-color: @col0;
+      line-width: 3;
+    }
+    #nyc_isos_copy::lbl [ data_range <= 1200] {
+      text-fill: @col0;
+    }
+
+    #nyc_isos_copy [ data_range <= 900] {
+      polygon-fill: @col1;
+      line-color: @col1;
+      line-width: 2.5;
+    }
+    #nyc_isos_copy::lbl [ data_range <= 900] {
+      text-fill: @col1;
+    }
+
+    #nyc_isos_copy [ data_range <= 600] {
+      polygon-fill: @col2;
+      line-color: @col2;
+      line-width: 2;
+    }
+    #nyc_isos_copy::lbl [ data_range <= 600] {
+      text-fill: @col2;
+    }
+
+    #nyc_isos_copy [ data_range <= 300] {
+      polygon-fill: @col3;
+      line-color: @col3;
+      line-width: 1.5;
+    }
+    #nyc_isos_copy::lbl [ data_range <= 300] {
+      text-fill: @col3;
+    }
+
+    #nyc_isos_cop [ data_range <= 120] {
+      polygon-fill: @col4;
+      line-color: @col4;
+    }
+    #nyc_isos_copy::lbl [ data_range <= 120] {
+      text-fill: @col4;
+    }
+  </script>
+
+
+
 
 
   <script src="vis.js"></script>

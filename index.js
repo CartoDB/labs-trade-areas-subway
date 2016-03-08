@@ -13,6 +13,8 @@
       per_capita_income: cartodb._.template(cdb.$('#css_per_capita_income').html()),
       median_age: cartodb._.template(cdb.$('#css_median_age').html()),
       ethnic_1st: cartodb._.template(cdb.$('#css_ethnic_1st').html()),
+      dots: cartodb._.template(cdb.$('#css_dots').html()),
+      iso: cartodb._.template(cdb.$('#css_iso').html()),
     }
 
     window.myapp.htmlTemplates = {
@@ -26,7 +28,10 @@
 
     window.myapp.vis.layers[1].options.layer_definition.layers[0].options.sql = window.myapp.sqlTemplates.blockgroups({data:{station_id: myapp.station_id, range: myapp.range, hists:myapp.hists}})
     window.myapp.vis.layers[1].options.layer_definition.layers[1].options.sql = window.myapp.sqlTemplates.dots({station_id: myapp.station_id, range: myapp.range})
+    window.myapp.vis.layers[1].options.layer_definition.layers[1].options.cartocss = window.myapp.cssTemplates.dots();
     window.myapp.vis.layers[1].options.layer_definition.layers[2].options.sql = window.myapp.sqlTemplates.iso({station_id: myapp.station_id, range: myapp.range})
+    window.myapp.vis.layers[1].options.layer_definition.layers[2].options.cartocss = window.myapp.cssTemplates.iso();
+    
 
     window.myapp.diJSON = cdb._.extend(window.myapp.vis,
         {
