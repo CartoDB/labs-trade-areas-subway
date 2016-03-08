@@ -216,64 +216,85 @@ FROM nerikcarto.nyc_dots_500
 
   </script>
   <script type="text/template" id="css_per_capita_income">
-    #nyc_census_clipped{
-      polygon-fill: #FFFFB2;
-      polygon-opacity: 0.8;
-      line-color: #FFF;
-      line-width: 0.5;
-      line-opacity: 1;
+  #nyc_census_clipped{
+    polygon-fill: #fff0c3;
+    polygon-opacity: 0.8;
+    line-width: 0;
+    line-opacity: 1;
+    polygon-gamma:0.2;
+
+    [ median_age <= 60.1] {
+    polygon-fill: #e81681;
     }
-    #nyc_census_clipped [ per_capita_income <= 369260] {
-       polygon-fill: #B10026;
+    [ median_age <= 56.0] {
+    polygon-fill: #f03d8c;
     }
-    #nyc_census_clipped [ per_capita_income <= 57496] {
-       polygon-fill: #E31A1C;
+    [ median_age <= 52.0] {
+    polygon-fill: #f75a8c;
     }
-    #nyc_census_clipped [ per_capita_income <= 40065] {
-       polygon-fill: #FC4E2A;
+    [ median_age <= 47.9] {
+    polygon-fill: #fd7386;
     }
-    #nyc_census_clipped [ per_capita_income <= 31793] {
-       polygon-fill: #FD8D3C;
+    [ median_age <= 43.9] {
+    polygon-fill: #ff8d7d;
     }
-    #nyc_census_clipped [ per_capita_income <= 25329] {
-       polygon-fill: #FEB24C;
+    [ median_age <= 39.9] {
+    polygon-fill: #ffa378;
     }
-    #nyc_census_clipped [ per_capita_income <= 20182] {
-       polygon-fill: #FED976;
+    [ median_age <= 35.8] {
+    polygon-fill: #ffb87c;
     }
-    #nyc_census_clipped [ per_capita_income <= 14978] {
-       polygon-fill: #FFFFB2;
+    [ median_age <= 31.8] {
+    polygon-fill: #ffcd8b;
     }
+    [ median_age <= 27.7] {
+    polygon-fill: #ffdfa2;
+    }
+    [ median_age <= 23.7] {
+    polygon-fill: #fff0c3;
+    }
+  }
   </script>
   <script type="text/template" id="css_median_age">
-    #nyc_census_clipped{
-  polygon-fill: #F1EEF6;
-  polygon-opacity: 0.8;
-  line-color: #FFF;
-  line-width: 0.5;
-  line-opacity: 1;
-}
-#nyc_census_clipped [ median_age <= 85.8] {
-   polygon-fill: #91003F;
-}
-#nyc_census_clipped [ median_age <= 58.9] {
-   polygon-fill: #CE1256;
-}
-#nyc_census_clipped [ median_age <= 51.3] {
-   polygon-fill: #E7298A;
-}
-#nyc_census_clipped [ median_age <= 44] {
-   polygon-fill: #DF65B0;
-}
-#nyc_census_clipped [ median_age <= 36.8] {
-   polygon-fill: #C994C7;
-}
-#nyc_census_clipped [ median_age <= 29.5] {
-   polygon-fill: #D4B9DA;
-}
-#nyc_census_clipped [ median_age <= 22.2] {
-   polygon-fill: #F1EEF6;
-}
+    #nyc_census_clipped {
+
+      polygon-fill: #ffe1d3;
+      polygon-opacity: 0.8;
+      line-width: 0;
+      line-opacity: 1;
+      polygon-gamma:0.2;
+
+      [ per_capita_income <= 56799] {
+      polygon-fill:  #97097c;
+      }
+      [ per_capita_income <= 51956] {
+      polygon-fill:  #b31680;
+      }
+      [ per_capita_income <= 47114] {
+       polygon-fill: #cc2d7f;
+      }
+      [ per_capita_income <= 42271] {
+       polygon-fill: #df467b;
+      }
+      [ per_capita_income <= 37492] {
+       polygon-fill: #ee6076;
+      }
+      [ per_capita_income <= 32586] {
+       polygon-fill: #f97b72;
+      }
+      [ per_capita_income <= 27743] {
+       polygon-fill: #ff9674;
+      }
+      [ per_capita_income <= 22901] {
+       polygon-fill: #ffb283;
+      }
+      [ per_capita_income <= 18058] {
+       polygon-fill: #ffcaa1;
+      }
+      [ per_capita_income <= 13216] {
+       polygon-fill: #ffe1d3;
+      }
+    }
 </script>
 
 
@@ -330,74 +351,67 @@ FROM nerikcarto.nyc_dots_500
 
 
   <script type="text/template" id="css_iso">
-    @col0: #000000;
-    @col1: #111111;
-    @col2: #2d2d2d;
-    @col3: #494948;
-    @col4: #5c5c5c;
+    @20m:#5D6588;
+    @15m:#3391A8;
+    @10m:#17BCA7;
+    @5m:#78E089;
+    @2m:#E4F966;
 
-
-    #nyc_isos_copy{
-      polygon-fill: #FFFFCC;
+    #nyc_isos_copy {
       polygon-opacity: 0;
-      line-color: #FFF;
-      line-opacity: 1;
-    }
-    #nyc_isos_copy::lbl{
-      text-name: [data_range]/60 + 'm. walking';
-      text-face-name: 'DejaVu Sans Bold';
-      text-size: 12;
-      text-label-position-tolerance: 10;
-      text-halo-fill: #FFFFFF;
-      text-halo-radius: 2;
-      text-allow-overlap: true;
-      text-placement: line;
-      text-placement-type: simple;
-    }
-
-    #nyc_isos_copy [ data_range <= 1200] {
-      polygon-fill: @col0;
-      line-color: @col0;
-      line-width: 3;
-    }
-    #nyc_isos_copy::lbl [ data_range <= 1200] {
-      text-fill: @col0;
-    }
-
-    #nyc_isos_copy [ data_range <= 900] {
-      polygon-fill: @col1;
-      line-color: @col1;
-      line-width: 2.5;
-    }
-    #nyc_isos_copy::lbl [ data_range <= 900] {
-      text-fill: @col1;
-    }
-
-    #nyc_isos_copy [ data_range <= 600] {
-      polygon-fill: @col2;
-      line-color: @col2;
+      line-color: transparent;
       line-width: 2;
-    }
-    #nyc_isos_copy::lbl [ data_range <= 600] {
-      text-fill: @col2;
+      line-opacity: 1;
+
+      [zoom>=16]{line-width: 2;}
+
+      [data_range<=1200] {
+      line-color: @20m;
+      }
+      [data_range<=900] {
+      line-color: @15m;
+      }
+      [data_range<=600] {
+      line-color: @10m;
+      }
+      [data_range<=300] {
+      line-color: @5m;
+      }
+      [data_range<=120] {
+      line-color: @2m;
+      }
     }
 
-    #nyc_isos_copy [ data_range <= 300] {
-      polygon-fill: @col3;
-      line-color: @col3;
-      line-width: 1.5;
-    }
-    #nyc_isos_copy::lbl [ data_range <= 300] {
-      text-fill: @col3;
-    }
+  #nyc_isos_copy::labels[zoom>=15] {
 
-    #nyc_isos_cop [ data_range <= 120] {
-      polygon-fill: @col4;
-      line-color: @col4;
+    text-name: [data_range]/60 + ' min';
+    text-face-name: 'Open Sans Bold';
+    text-size: 11.5;
+    text-label-position-tolerance: 10;
+    text-fill: #FFFFFF;
+    text-halo-fill: #FFF;
+    text-halo-radius: 1.5;
+    text-allow-overlap: true;
+    text-placement: line;
+    text-placement-type: simple;
+
+    [data_range<=1200] {
+    text-halo-fill: @20m;
     }
-    #nyc_isos_copy::lbl [ data_range <= 120] {
-      text-fill: @col4;
+    [data_range<=900] {
+    text-halo-fill: @15m;
     }
+    [data_range<=600] {
+    text-halo-fill: @10m;
+    }
+    [data_range<=300] {
+    text-halo-fill: @5m;
+    }
+    [data_range<=120] {
+    text-halo-fill: @2m;
+    }
+}
+
   </script>
 
 
