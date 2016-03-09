@@ -175,19 +175,27 @@
     FROM
     nerikcarto.nyc_census_clipped
     WHERE
-    ST_Intersects(
-    nerikcarto.nyc_census_clipped.the_geom,
-      (SELECT
-      the_geom
-      FROM
-      nerikcarto.nyc_subway_stations_l_isos
-      WHERE
-      data_range = <%= data.range %>
+    nerikcarto.nyc_census_clipped.is_in_iso IS true
+    AND
+    median_age is not null
+    and
+    per_capita_income is not null
+    <% if (data.station_id) { %>
       AND
-      station_id = <%= data.station_id %>
-      LIMIT 1
+      ST_Intersects(
+      nerikcarto.nyc_census_clipped.the_geom,
+        (SELECT
+        the_geom
+        FROM
+        nerikcarto.nyc_subway_stations_l_isos
+        WHERE
+        data_range = <%= data.range %>
+        AND
+        station_id = <%= data.station_id %>
+        LIMIT 1
+        )
       )
-    )
+    <% } %>
 
 
   </script>
@@ -195,29 +203,77 @@
     select
     nerikcarto.nyc_dots_500.cartodb_id,
     nerikcarto.nyc_dots_500.the_geom,
-    nerikcarto.nyc_dots_500.the_geom_webmercator,
-	ST_Within(
-    	nerikcarto.nyc_dots_500.the_geom,
-    	(
-  SELECT
-    the_geom
-  FROM
-  	nerikcarto.nyc_subway_stations_l_isos
-  WHERE
-  	data_range = <%= range %>
-  AND
-  	station_id = <%= station_id %>
-  LIMIT 1
-)
-    ) inside
-
-FROM nerikcarto.nyc_dots_500
+    nerikcarto.nyc_dots_500.the_geom_webmercator
+    <% if (station_id) { %>
+      ,
+    	ST_Within(
+      	nerikcarto.nyc_dots_500.the_geom,
+      	(
+          SELECT
+            the_geom
+          FROM
+          	nerikcarto.nyc_subway_stations_l_isos
+          WHERE
+          	data_range = <%= range %>
+          AND
+          	station_id = <%= station_id %>
+          LIMIT 1
+        )
+      ) inside
+    <% } %>
+    FROM nerikcarto.nyc_dots_500
+    limit 1
 
 
   </script>
+
   <script type="text/template" id="css_per_capita_income">
+    #nyc_census_clipped {
+
+      polygon-fill: #f0f;
+      polygon-opacity: 0.8;
+      line-width: 0;
+      line-opacity: 1;
+      polygon-gamma:0.2;
+
+      [ per_capita_income <= 369260] {
+      polygon-fill:  #97097c;
+      }
+      [ per_capita_income <= 332796] {
+      polygon-fill:  #b31680;
+      }
+      [ per_capita_income <= 296333] {
+       polygon-fill: #cc2d7f;
+      }
+      [ per_capita_income <= 259869] {
+       polygon-fill: #df467b;
+      }
+      [ per_capita_income <= 223406] {
+       polygon-fill: #ee6076;
+      }
+      [ per_capita_income <= 186942] {
+       polygon-fill: #f97b72;
+      }
+      [ per_capita_income <= 150479] {
+       polygon-fill: #ff9674;
+      }
+      [ per_capita_income <= 114015] {
+       polygon-fill: #ffb283;
+      }
+      [ per_capita_income <= 77552] {
+       polygon-fill: #ffcaa1;
+      }
+      [ per_capita_income <= 41088] {
+       polygon-fill: #ffe1d3;
+      }
+    }
+</script>
+
+
+
+  <script type="text/template" id="css_median_age">
   #nyc_census_clipped{
-    polygon-fill: #fff0c3;
+    polygon-fill: #f0f;
     polygon-opacity: 0.8;
     line-width: 0;
     line-opacity: 1;
@@ -255,47 +311,7 @@ FROM nerikcarto.nyc_dots_500
     }
   }
   </script>
-  <script type="text/template" id="css_median_age">
-    #nyc_census_clipped {
 
-      polygon-fill: #ffe1d3;
-      polygon-opacity: 0.8;
-      line-width: 0;
-      line-opacity: 1;
-      polygon-gamma:0.2;
-
-      [ per_capita_income <= 56799] {
-      polygon-fill:  #97097c;
-      }
-      [ per_capita_income <= 51956] {
-      polygon-fill:  #b31680;
-      }
-      [ per_capita_income <= 47114] {
-       polygon-fill: #cc2d7f;
-      }
-      [ per_capita_income <= 42271] {
-       polygon-fill: #df467b;
-      }
-      [ per_capita_income <= 37492] {
-       polygon-fill: #ee6076;
-      }
-      [ per_capita_income <= 32586] {
-       polygon-fill: #f97b72;
-      }
-      [ per_capita_income <= 27743] {
-       polygon-fill: #ff9674;
-      }
-      [ per_capita_income <= 22901] {
-       polygon-fill: #ffb283;
-      }
-      [ per_capita_income <= 18058] {
-       polygon-fill: #ffcaa1;
-      }
-      [ per_capita_income <= 13216] {
-       polygon-fill: #ffe1d3;
-      }
-    }
-</script>
 
 
 <script type="text/template" id="css_ethnic_1st">
@@ -414,7 +430,85 @@ FROM nerikcarto.nyc_dots_500
 
   </script>
 
+  <script type="text/template" id="html_legend">
+    <% if (index === 0) { %>
+    <div class='cartodb-legend choropleth'>
+      <div class="legend-title">Income</div>
+      <ul>
+        <li class="min">
+            Lower
+        </li>
+        <li class="max">
+            Higher
+        </li>
+        <li class="graph count_630">
+        <div class="colors">
+        <div class="quartile" style="background-color:#ffe1d3"></div>
+        <div class="quartile" style="background-color:#ffcaa1"></div>
+        <div class="quartile" style="background-color:#ffb283"></div>
+        <div class="quartile" style="background-color:#ff9674"></div>
+        <div class="quartile" style="background-color:#f97b72"></div>
+        <div class="quartile" style="background-color:#ee6076"></div>
+        <div class="quartile" style="background-color:#df467b"></div>
+        <div class="quartile" style="background-color:#cc2d7f"></div>
+        <div class="quartile" style="background-color:#b31680"></div>
+        <div class="quartile" style="background-color:#97097c"></div>
+        </div>
+        </li>
+      </ul>
+      </div>
+    <% } %>
+    <% if (index === 1) { %>
+    <div class='cartodb-legend choropleth'>
+      <div class="legend-title">Age</div>
+      <ul>
+          <li class="min">
+              Younger
+          </li>
+          <li class="max">
+              Older
+          </li>
+          <li class="graph count_630">
+          <div class="colors">
+          <div class="quartile" style="background-color:#fff0c3"></div>
+          <div class="quartile" style="background-color:#ffdfa2"></div>
+          <div class="quartile" style="background-color:#ffcd8b"></div>
+          <div class="quartile" style="background-color:#ffb87c"></div>
+          <div class="quartile" style="background-color:#ffa378"></div>
+          <div class="quartile" style="background-color:#ff8d7d"></div>
+          <div class="quartile" style="background-color:#fd7386"></div>
+          <div class="quartile" style="background-color:#f75a8c"></div>
+          <div class="quartile" style="background-color:#f03d8c"></div>
+          <div class="quartile" style="background-color:#e81681"></div>
+          </div>
+          </li>
+      </ul>
+    </div>
+    <% } %>
+    <% if (index === 2) { %>
+      <div class='cartodb-legend category'>
+        <div class="legend-title">Ethnic group</div>
+        <ul>
+          <li>
+            <div class="bullet" style="background: #fe528d"></div> asian
+          </li>
+          <li>
+            <div class="bullet" style="background: #18a79e"></div> black
+          </li>
+          <li>
+            <div class="bullet" style="background: #ff8a00"></div> hispanic or latino
+          </li>
+          <li>
+            <div class="bullet" style="background: #33A02C"></div> other
+          </li>
+          <li>
+            <div class="bullet" style="background: #a0a4d5"></div> white
+          </li>
+        </ul>
+      </div>
 
+    <% } %>
+  </script>
 
 
 

@@ -120,3 +120,21 @@ ethnic_1st =
     'other'
   END
 )
+
+
+# add is_in_iso column
+UPDATE
+nerikcarto.nyc_census_clipped
+SET
+is_in_iso = ST_Intersects(
+  the_geom,
+  (
+  	SELECT
+		ST_Union(
+  	nerikcarto.nyc_subway_stations_l_isos.the_geom)
+	FROM
+    	nerikcarto.nyc_subway_stations_l_isos
+	WHERE
+		data_range = 1200
+  )
+)

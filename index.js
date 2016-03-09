@@ -5,7 +5,7 @@
 
     window.myapp.sqlTemplates = {
       blockgroups: cartodb._.template(cdb.$('#sql_blockgroups').html()),
-      iso: cartodb._.template('select * from nyc_subway_stations_l_isos WHERE station_id = <%= station_id %> AND data_range <= <%= range %>'),
+      iso: cartodb._.template('select * from nyc_subway_stations_l_isos <% if (station_id) { %>  WHERE station_id = <%= station_id %> AND data_range <= <%= range %><% } %>'),
       dots: cartodb._.template( cdb.$('#sql_dots').html() )
     }
 
@@ -18,7 +18,8 @@
     }
 
     window.myapp.htmlTemplates = {
-      drop: cartodb._.template( cdb.$('#html_drop').html() )
+      drop: cartodb._.template( cdb.$('#html_drop').html() ),
+      legend: cartodb._.template( cdb.$('#html_legend').html() )
     }
 
     window.myapp.current_choro_widget = 0;
@@ -26,17 +27,22 @@
     window.myapp.range = 1200;
     window.myapp.hists = {};
 
-    window.myapp.vis.layers[1].options.layer_definition.layers[0].options.sql = window.myapp.sqlTemplates.blockgroups({data:{station_id: myapp.station_id, range: myapp.range, hists:myapp.hists}})
+    window.myapp.vis.layers[1].options.layer_definition.layers[0].options.sql = window.myapp.sqlTemplates.blockgroups({data:{}})
+    window.myapp.vis.layers[1].options.layer_definition.layers[0].options.cartocss = window.myapp.cssTemplates.per_capita_income();
     window.myapp.vis.layers[1].options.layer_definition.layers[1].options.sql = window.myapp.sqlTemplates.dots({station_id: myapp.station_id, range: myapp.range})
     window.myapp.vis.layers[1].options.layer_definition.layers[1].options.cartocss = window.myapp.cssTemplates.dots();
     window.myapp.vis.layers[1].options.layer_definition.layers[2].options.sql = window.myapp.sqlTemplates.iso({station_id: myapp.station_id, range: myapp.range})
     window.myapp.vis.layers[1].options.layer_definition.layers[2].options.cartocss = window.myapp.cssTemplates.iso();
-    
+
+    window.myapp.zoom = 14;
+    window.myapp.center = [40.73138896860918, -73.97335052490234];
+
 
     window.myapp.diJSON = cdb._.extend(window.myapp.vis,
         {
-        "title": "myapp Ads Demo",
-        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum",
+          "vector": true,
+        "title": "Isochrones demo",
+        "description": "",
         "user": {
             fullname: 'Erik Escoffier',
             avatar_url: 'https://avatars1.githubusercontent.com/u/1583415?v=3&s=400'
@@ -62,17 +68,6 @@
                   "sync": true,
               }
           },
-          // {
-          //     "type": "histogram",
-          //     "title": "Are we close to station 85?",
-          //     "layer_id": window.myapp.layers[3],
-          //     'show_stats': false,
-          //     "options": {
-          //         "type": "histogram",
-          //         "column": "median_age",
-          //         "sync": false,
-          //     }
-          // },
           {
               "type": "histogram",
               "title": "Block group per capita income",
@@ -81,8 +76,7 @@
               "options": {
                   "type": "histogram",
                   "column": "per_capita_income",
-                  "sync": true,
-                  "displayShadowBars": false
+                  "sync": true
               }
           },
           {
@@ -96,7 +90,6 @@
                   "sync": true,
               }
           },
-
           {
               "type": "category",
               "title": "Primary ethnic group",
@@ -113,7 +106,7 @@
     });
 
     window.myapp.sql = new cartodb.SQL({
-        user: 'abel',
+        user: 'nerikcarto',
         protocol: "https",
         sql_api_template: "https://{user}.cartodb.com:443"
     });
@@ -134,6 +127,8 @@
           window.myapp.widgets = vis._dataviewsCollection.models;
           window.myapp.Lmap = vis.getNativeMap();
 
+          window.myapp.Lmap.setView(window.myapp.center, window.myapp.zoom)
+
 
           var blockgroups = layers.models[1];
           var iso = layers.models[3];
@@ -150,13 +145,17 @@
             updateAll();
           })
 
-          var updateAll = function(station_id, range) {
+          var updateAll = function() {
             iso.set('sql', window.myapp.sqlTemplates.iso({station_id: myapp.station_id, range: myapp.range}));
 
             var dots_sql_tpl = window.myapp.sqlTemplates.dots({station_id: myapp.station_id, range: myapp.range});
             dots.set('sql', dots_sql_tpl);
 
-            var blockgroups_sql_tpl = window.myapp.sqlTemplates.blockgroups({data:{station_id: myapp.station_id, range: myapp.range, hists:myapp.hists}});
+            updateBlockGroups();
+          }
+
+          var updateBlockGroups = function() {
+            var blockgroups_sql_tpl = window.myapp.sqlTemplates.blockgroups({data:{station_id: myapp.station_id, range: myapp.range}});
             blockgroups.set('sql', blockgroups_sql_tpl);
           }
 
@@ -164,11 +163,26 @@
             var col = ['per_capita_income','median_age','ethnic_1st'][index];
             var cssTpl = window.myapp.cssTemplates[col]();
             blockgroups.set('cartocss', cssTpl );
+
+            window.myapp.updateLegend(index);
           }
 
-          // big motherfuckin hack
+          window.myapp.updateLegend = function (index) {
+
+            var lgd = window.myapp.htmlTemplates.legend({index: index})
+            cdb.$('.cartodb-legend-stack').html(lgd)
+          }
+
+          //mywidget.update({bins:17})
+
+          updateBlockGroups();
+          window.myapp.updateLegend(0);
+
+          // paint icons
           function onWidgetChange(model) {
-            console.log(model)
+            console.log(model.get('column'))
+            console.log(model.filter.toJSON())
+
             cdb.$('.CDB-Widget').eq(0).find('.CDB-Widget-options').remove();
             cdb.$('.js-sizes').remove();
             cdb.$('.js-colors').remove();
@@ -182,7 +196,7 @@
               cdb.$(el).prepend(btn);
 
               btn.on('click', function (e) {
-                var $t = (cdb.$(e.target).data('index')) ? cdb.$(e.target) : cdb.$(e.target).parent('.js-colorsCustom');
+                var $t = (cdb.$(e.target).data('index') !== undefined) ? cdb.$(e.target) : cdb.$(e.target).parent('.js-colorsCustom');
                 var index = parseInt($t.data('index'));
                 window.myapp.current_choro_widget = index;
                 cdb.$('.js-colorsCustom').removeClass('is-selected');
@@ -193,9 +207,9 @@
 
           }
 
-          myapp.dash._dataviewsCollection.models[1].on('change:data', onWidgetChange)
-          myapp.dash._dataviewsCollection.models[2].on('change:data', onWidgetChange)
-          myapp.dash._dataviewsCollection.models[3].on('change:data', onWidgetChange)
+          myapp.dash._dataviewsCollection.models[1].on('change:data', onWidgetChange);
+          myapp.dash._dataviewsCollection.models[2].on('change:data', onWidgetChange);
+          myapp.dash._dataviewsCollection.models[3].on('change:data', onWidgetChange);
 
 
           myapp.dash._dataviewsCollection.models[3].on('change:data', function () {
