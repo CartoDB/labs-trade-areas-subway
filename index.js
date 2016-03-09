@@ -40,7 +40,7 @@
 
     window.myapp.diJSON = cdb._.extend(window.myapp.vis,
         {
-          "vector": true,
+          // "vector": true,
         "title": "Isochrones demo",
         "description": "",
         "user": {
@@ -92,7 +92,7 @@
           },
           {
               "type": "category",
-              "title": "Primary ethnic group",
+              "title": "Block group primary ethnic group",
               "layer_id": window.myapp.vis.layers[1].options.layer_definition.layers[0].id,
               "options": {
                   "type": "aggregation",
