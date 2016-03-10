@@ -202,6 +202,28 @@
                 cdb.$('.js-colorsCustom').removeClass('is-selected');
                 $t.addClass('is-selected')
                 window.myapp.updateChoro(index);
+
+                //recolor bars for the racial category selector
+                var recolor = function (title, color) {
+                  if (cdb.$('.CDB-Widget-listItemInner:has(.CDB-Text[title="' + title + '"]) .CDB-Widget-progressState').get(0) != void 0) {
+                      cdb.$('.CDB-Widget-listItemInner:has(.CDB-Text[title="' + title + '"]) .CDB-Widget-progressState').get(0).style.backgroundColor = color;
+                  }
+                }
+
+                if (index == 2) {
+                  recolor('asian', '#fe528d');
+                  recolor('black', '#18a79e');
+                  recolor('hispanic or latino', '#ff8a00');
+                  recolor('white', '#a0a4d5');
+                  recolor('other', '#cccccc');
+                } else {
+                  recolor('asian', '#9de0ad');
+                  recolor('black', '#9de0ad');
+                  recolor('hispanic or latino', '#9de0ad');
+                  recolor('white', '#9de0ad');
+                  recolor('other', '#9de0ad');
+                }
+
               })
             })
 
@@ -210,22 +232,6 @@
           myapp.dash._dataviewsCollection.models[1].on('change:data', onWidgetChange);
           myapp.dash._dataviewsCollection.models[2].on('change:data', onWidgetChange);
           myapp.dash._dataviewsCollection.models[3].on('change:data', onWidgetChange);
-
-
-          myapp.dash._dataviewsCollection.models[3].on('change:data', function () {
-            var recolor = function (title, color) {
-                if (cdb.$('.CDB-Widget-listItemInner:has(.CDB-Text[title="' + title + '"]) .CDB-Widget-progressState').get(0) != void 0) {
-                    cdb.$('.CDB-Widget-listItemInner:has(.CDB-Text[title="' + title + '"]) .CDB-Widget-progressState').get(0).style.backgroundColor = color;
-                }
-            }
-            recolor('asian', '#fe528d');
-            recolor('black', '#18a79e');
-            recolor('hispanic or latino', '#ff8a00');
-            recolor('white', '#a0a4d5');
-            recolor('other', '#cccccc');
-
-          });
-
 
 
           //fetch metro stations
@@ -253,6 +259,11 @@
               }
             }).addTo(myapp.Lmap)
           });
+
+          //set opacity of basemap
+          cdb.$('.leaflet-layer').first().css('opacity',.5);
+
+
         });
     };
 
