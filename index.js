@@ -259,6 +259,11 @@
               }
             }).addTo(myapp.Lmap)
           });
+
+          //set opacity of basemap
+          cdb.$('.leaflet-layer').first().css('opacity',.5);
+
+
         });
     };
 
