@@ -230,10 +230,11 @@
     #nyc_census_clipped {
 
       polygon-fill: #f0f;
-      polygon-opacity: 0.8;
-      line-width: 0;
+      polygon-opacity: 0.9;
+      line-width: 0.5;
+      line-color: #fff;
       line-opacity: 1;
-      polygon-gamma:0.2;
+      //polygon-gamma:0.2;
 
       [ per_capita_income <= 369260] {
       polygon-fill:  #97097c;
@@ -274,7 +275,8 @@
   #nyc_census_clipped{
     polygon-fill: #f0f;
     polygon-opacity: 0.8;
-    line-width: 0;
+    line-width: 1;
+    line-color: #fff;
     line-opacity: 1;
     polygon-gamma:0.2;
 
@@ -338,33 +340,6 @@
 }
   </script>
 
-
-
-  <script type="text/template" id="css_dots">
-    #nyc_dots_500_2_copy{
-      marker-fill-opacity: 0.25;
-      marker-line-color: #FFF;
-      marker-line-width: 0;
-      marker-line-opacity: 1;
-      marker-placement: point;
-      marker-type: ellipse;
-      marker-width: 3;
-      marker-fill: #000000;
-      marker-allow-overlap: true;
-    }
-
-    #nyc_dots_500_2_copy[inside=true]{
-      marker-fill-opacity: 1;
-    }
-
-    #nyc_dots_500_2_copy[zoom<15]{
-      marker-width: 1.5;
-    }
-  </script>
-
-
-
-
   <script type="text/template" id="css_iso">
     @20m:#5D6588;
     @15m:#3391A8;
@@ -427,6 +402,28 @@
     }
 }
 
+  </script>
+
+  <script type="text/template" id="css_dots">
+    #nyc_dots_500_2_copy{
+      marker-fill-opacity: 0;
+      marker-line-color: #FFF;
+      marker-line-width: 0;
+      marker-line-opacity: 1;
+      marker-placement: point;
+      marker-type: ellipse;
+      marker-width: 3;
+      marker-fill: #707070;
+      marker-allow-overlap: true;
+    }
+
+    #nyc_dots_500_2_copy[inside=true]{
+      marker-fill-opacity: 0.4;
+    }
+
+    #nyc_dots_500_2_copy[zoom<15]{
+      marker-width: 1.5;
+    }
   </script>
 
   <script type="text/template" id="html_legend">
