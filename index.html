@@ -228,6 +228,19 @@
   </script>
 
   <script type="text/template" id="css_per_capita_income">
+
+    @p1:#ffe1d3;
+    @p2:#ffcaa1;
+    @p3:#ffb283;
+    @p4:#ff9674;
+    @p5:#f97b72;
+    @p6:#ee6076;
+    @p7:#df467b;
+    @p8:#cc2d7f;
+    @p9:#b31680;
+    @p10:#97097c;
+
+
     #nyc_census_clipped {
 
       polygon-fill: #D3D3D3;
@@ -237,46 +250,47 @@
       line-opacity: 0.9;
 
       [ per_capita_income <= 369260] {
-      polygon-fill:  #97097c;
-      line-color: darken(#97097c,8);
+      polygon-fill:  @p10;
+      line-color: darken(@p10,5);
       }
       [ per_capita_income <= 332796] {
-      polygon-fill:  #b31680;
-      line-color: darken(#b31680,8);
+      polygon-fill:  @p9;
+      line-color: darken(@p9,5);
       }
       [ per_capita_income <= 296333] {
-       polygon-fill: #cc2d7f;
-       line-color: darken(#cc2d7f,5);
+       polygon-fill: @p8;
+       line-color: darken(@p8,5);
       }
       [ per_capita_income <= 259869] {
-       polygon-fill: #df467b;
-       line-color: darken(#df467b,5);
+       polygon-fill: @p7;
+       line-color: darken(@p7,5);
       }
       [ per_capita_income <= 223406] {
-       polygon-fill: #ee6076;
-       line-color: darken(#ee6076,5);
+       polygon-fill: @p6;
+       line-color: darken(@p6,5);
       }
       [ per_capita_income <= 186942] {
-       polygon-fill: #f97b72;
-       line-color: darken(#f97b72,5);
+       polygon-fill: @p5;
+       line-color: darken(@p5,5);
       }
       [ per_capita_income <= 150479] {
-       polygon-fill: #ff9674;
-       line-color: darken(#ff9674,5);
+       polygon-fill: @p4;
+       line-color: darken(@p4,5);
       }
       [ per_capita_income <= 114015] {
-       polygon-fill: #ffb283;
-       line-color: darken(#ffb283,5);
+       polygon-fill: @p3;
+       line-color: darken(@p3,5);
       }
       [ per_capita_income <= 77552] {
-       polygon-fill: #ffcaa1;
-       line-color: darken(#ffcaa1,5);
+       polygon-fill: @p2;
+       line-color: darken(@p2,5);
       }
       [ per_capita_income <= 41088] {
-       polygon-fill: #ffe1d3;
-       line-color: darken(#ffe1d3,5);
+       polygon-fill: @p1;
+       line-color: darken(@p1,1);
      }
-    }
+   }
+
 </script>
 
 
