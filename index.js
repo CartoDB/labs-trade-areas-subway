@@ -58,7 +58,7 @@
 
           {
               "type": "formula",
-              "title": "# people within distance",
+              "title": "Number of People Within Walking Distance",
               "layer_id": window.myapp.vis.layers[1].options.layer_definition.layers[0].id,
               "options": {
                   "type": "formula",
@@ -70,7 +70,7 @@
           },
           {
               "type": "histogram",
-              "title": "Block group per capita income",
+              "title": "Per Capita Income (Block Group)",
               "layer_id": window.myapp.vis.layers[1].options.layer_definition.layers[0].id,
               'show_stats': false,
               "options": {
@@ -81,7 +81,7 @@
           },
           {
               "type": "histogram",
-              "title": "Block group median age",
+              "title": "Median Age (Block Group)",
               "layer_id": window.myapp.vis.layers[1].options.layer_definition.layers[0].id,
               'show_stats': false,
               "options": {
@@ -92,7 +92,7 @@
           },
           {
               "type": "category",
-              "title": "Block group primary ethnic group",
+              "title": "Predominant Ethnicity (Block Group)",
               "layer_id": window.myapp.vis.layers[1].options.layer_definition.layers[0].id,
               "options": {
                   "type": "aggregation",
@@ -211,11 +211,11 @@
                 }
 
                 if (index == 2) {
-                  recolor('asian', '#fe528d');
-                  recolor('black', '#18a79e');
-                  recolor('hispanic or latino', '#ff8a00');
-                  recolor('white', '#a0a4d5');
-                  recolor('other', '#cccccc');
+                  recolor('asian', '#e78ac3');
+                  recolor('black', '#fc8d62');
+                  recolor('hispanic or latino', '#F1D38D');
+                  recolor('white', '#66c2a5');
+                  recolor('other', '#D3D3D3');
                 } else {
                   recolor('asian', '#9de0ad');
                   recolor('black', '#9de0ad');
