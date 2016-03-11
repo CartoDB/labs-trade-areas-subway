@@ -9,7 +9,6 @@
   <link rel="shortcut icon" href="favicon.ico" />
   <script src="lib/deep-insights.uncompressed.js"></script>
   <script src="lib/rangeslider.min.js"></script>
-  <script src="//localhost:9096"></script>
   <style type="text/css">
     html, body {
       position:relative;
@@ -200,32 +199,7 @@
 
 
   </script>
-  <script type="text/template" id="sql_dots">
-    select
-    nerikcarto.nyc_dots_500.cartodb_id,
-    nerikcarto.nyc_dots_500.the_geom,
-    nerikcarto.nyc_dots_500.the_geom_webmercator
-    <% if (station_id) { %>
-      ,
-    	ST_Within(
-      	nerikcarto.nyc_dots_500.the_geom,
-      	(
-          SELECT
-            the_geom
-          FROM
-          	nerikcarto.nyc_subway_stations_l_isos
-          WHERE
-          	data_range = <%= range %>
-          AND
-          	station_id = <%= station_id %>
-          LIMIT 1
-        )
-      ) inside
-    <% } %>
-    FROM nerikcarto.nyc_dots_500
-
-
-  </script>
+  
 
   <script type="text/template" id="css_per_capita_income">
 
@@ -429,27 +403,7 @@
 
   </script>
 
-  <script type="text/template" id="css_dots">
-    #nyc_dots_500_2_copy{
-      marker-fill-opacity: 0;
-      marker-line-color: #FFF;
-      marker-line-width: 0;
-      marker-line-opacity: 1;
-      marker-placement: point;
-      marker-type: ellipse;
-      marker-width: 3;
-      marker-fill: #607D8B;
-      marker-allow-overlap: true;
-    }
-
-    #nyc_dots_500_2_copy[inside=true]{
-      marker-fill-opacity: 0;
-    }
-
-    #nyc_dots_500_2_copy[zoom<15]{
-      marker-width: 1.6;
-    }
-  </script>
+ 
 
   <script type="text/template" id="html_legend">
     <% if (index === 0) { %>

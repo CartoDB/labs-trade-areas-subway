@@ -5,15 +5,13 @@
 
     window.myapp.sqlTemplates = {
       blockgroups: cartodb._.template(cdb.$('#sql_blockgroups').html()),
-      iso: cartodb._.template('select * from nyc_subway_stations_l_isos <% if (station_id) { %>  WHERE station_id = <%= station_id %> AND data_range <= <%= range %><% } %>'),
-      dots: cartodb._.template( cdb.$('#sql_dots').html() )
+      iso: cartodb._.template('select * from nyc_subway_stations_l_isos <% if (station_id) { %>  WHERE station_id = <%= station_id %> AND data_range <= <%= range %><% } %>')
     }
 
     window.myapp.cssTemplates = {
       per_capita_income: cartodb._.template(cdb.$('#css_per_capita_income').html()),
       median_age: cartodb._.template(cdb.$('#css_median_age').html()),
       ethnic_1st: cartodb._.template(cdb.$('#css_ethnic_1st').html()),
-      dots: cartodb._.template(cdb.$('#css_dots').html()),
       iso: cartodb._.template(cdb.$('#css_iso').html()),
     }
 
@@ -29,8 +27,6 @@
 
     window.myapp.vis.layers[1].options.layer_definition.layers[0].options.sql = window.myapp.sqlTemplates.blockgroups({data:{}})
     window.myapp.vis.layers[1].options.layer_definition.layers[0].options.cartocss = window.myapp.cssTemplates.per_capita_income();
-    window.myapp.vis.layers[1].options.layer_definition.layers[1].options.sql = window.myapp.sqlTemplates.dots({station_id: myapp.station_id, range: myapp.range})
-    window.myapp.vis.layers[1].options.layer_definition.layers[1].options.cartocss = window.myapp.cssTemplates.dots();
     window.myapp.vis.layers[1].options.layer_definition.layers[2].options.sql = window.myapp.sqlTemplates.iso({station_id: myapp.station_id, range: myapp.range})
     window.myapp.vis.layers[1].options.layer_definition.layers[2].options.cartocss = window.myapp.cssTemplates.iso();
 
@@ -147,10 +143,7 @@
 
           var updateAll = function() {
             iso.set('sql', window.myapp.sqlTemplates.iso({station_id: myapp.station_id, range: myapp.range}));
-
-            var dots_sql_tpl = window.myapp.sqlTemplates.dots({station_id: myapp.station_id, range: myapp.range});
-            dots.set('sql', dots_sql_tpl);
-
+            
             updateBlockGroups();
           }
 
