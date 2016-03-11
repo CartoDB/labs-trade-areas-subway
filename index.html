@@ -18,11 +18,11 @@
       margin: 0;
     }
     .subway_station {
-      width: 10px !important;
-      height: 10px !important;
+      width: 9px !important;
+      height: 9px !important;
       background: #fff;
       border-radius: 99px;
-      border: 2.5px solid #000;
+      border: 2.5px solid #757575;
     }
     /* http://danielstern.ca/range.css/ */
     .Range-wrapper {
@@ -44,7 +44,7 @@
       height: 4px;
       cursor: pointer;
       background: orange;
-      background: -webkit-linear-gradient(left, #92D78A 0%,#92D78A 25%,#54B6A6 25.1%,#54B6A6 50%,#4B90A7 50.1%,#4B90A7 75%,#5E6888 75.1%,#5E6888 100%);
+      background: -webkit-linear-gradient(left, #E4F966 0%,#92D78A 25.1%,#54B6A6 50%,#4B90A7 75%,#5E6888 100%);
       border-radius: 3px;
       border: 0px solid #010101;
     }
@@ -228,86 +228,120 @@
   </script>
 
   <script type="text/template" id="css_per_capita_income">
+
+    @p1:#ffe1d3;
+    @p2:#ffcaa1;
+    @p3:#ffb283;
+    @p4:#ff9674;
+    @p5:#f97b72;
+    @p6:#ee6076;
+    @p7:#df467b;
+    @p8:#cc2d7f;
+    @p9:#b31680;
+    @p10:#97097c;
+
+
     #nyc_census_clipped {
 
-      polygon-fill: #f0f;
-      polygon-opacity: 0.8;
-      line-width: 0;
-      line-opacity: 1;
-      polygon-gamma:0.2;
+      polygon-fill: #D3D3D3;
+      polygon-opacity: 1;
+      line-width: 1.5;
+      line-color: #fff;
+      line-opacity: 0.9;
 
       [ per_capita_income <= 369260] {
-      polygon-fill:  #97097c;
+      polygon-fill:  @p10;
+      line-color: darken(@p10,5);
       }
       [ per_capita_income <= 332796] {
-      polygon-fill:  #b31680;
+      polygon-fill:  @p9;
+      line-color: darken(@p9,5);
       }
       [ per_capita_income <= 296333] {
-       polygon-fill: #cc2d7f;
+       polygon-fill: @p8;
+       line-color: darken(@p8,5);
       }
       [ per_capita_income <= 259869] {
-       polygon-fill: #df467b;
+       polygon-fill: @p7;
+       line-color: darken(@p7,5);
       }
       [ per_capita_income <= 223406] {
-       polygon-fill: #ee6076;
+       polygon-fill: @p6;
+       line-color: darken(@p6,5);
       }
       [ per_capita_income <= 186942] {
-       polygon-fill: #f97b72;
+       polygon-fill: @p5;
+       line-color: darken(@p5,5);
       }
       [ per_capita_income <= 150479] {
-       polygon-fill: #ff9674;
+       polygon-fill: @p4;
+       line-color: darken(@p4,5);
       }
       [ per_capita_income <= 114015] {
-       polygon-fill: #ffb283;
+       polygon-fill: @p3;
+       line-color: darken(@p3,5);
       }
       [ per_capita_income <= 77552] {
-       polygon-fill: #ffcaa1;
+       polygon-fill: @p2;
+       line-color: darken(@p2,5);
       }
       [ per_capita_income <= 41088] {
-       polygon-fill: #ffe1d3;
-      }
-    }
+       polygon-fill: @p1;
+       line-color: darken(@p1,1);
+     }
+   }
+
 </script>
 
 
 
   <script type="text/template" id="css_median_age">
   #nyc_census_clipped{
-    polygon-fill: #f0f;
+    polygon-fill: #D3D3D3;
     polygon-opacity: 0.8;
-    line-width: 0;
-    line-opacity: 1;
-    polygon-gamma:0.2;
+    line-width: 1.5;
+    line-color: transparent;
+    line-opacity: 0.9;
 
     [ median_age <= 60.1] {
     polygon-fill: #e81681;
+    line-color: darken(#e81681,2);
     }
     [ median_age <= 56.0] {
     polygon-fill: #f03d8c;
+    line-color: darken(#f03d8c,2);
     }
     [ median_age <= 52.0] {
     polygon-fill: #f75a8c;
+    line-color: darken(#f75a8c,2);
     }
     [ median_age <= 47.9] {
     polygon-fill: #fd7386;
+    line-color: darken(#fd7386,5);
     }
     [ median_age <= 43.9] {
     polygon-fill: #ff8d7d;
+    line-color: darken(#ff8d7d,5);
     }
     [ median_age <= 39.9] {
     polygon-fill: #ffa378;
+    line-color: darken(#ffa378,5);
     }
     [ median_age <= 35.8] {
     polygon-fill: #ffb87c;
+    line-color: darken(#ffb87c,5);
     }
     [ median_age <= 31.8] {
     polygon-fill: #ffcd8b;
+    line-color: darken(#ffcd8b,5);
     }
     [ median_age <= 27.7] {
     polygon-fill: #ffdfa2;
+    line-color: darken(#ffdfa2,5);
     }
     [ median_age <= 23.7] {
     polygon-fill: #fff0c3;
+    line-color: darken(#fff0c3,5);
     }
   }
   </script>
@@ -316,55 +350,35 @@
 
 <script type="text/template" id="css_ethnic_1st">
     #nyc_census_clipped {
-   polygon-opacity: 0.7;
-   line-color: #FFF;
-   line-width: 0.5;
-   line-opacity: 1;
-}
+      polygon-fill: #D3D3D3;
+      polygon-opacity: 0.8;
+      line-width: 1.5;
+      line-color: #fff;
+      line-opacity: 0.9;
+      [zoom<=14]{line-width:1;}
 
-#nyc_census_clipped[ethnic_1st="asian"] {
-   polygon-fill: #fe528d;
-}
-#nyc_census_clipped[ethnic_1st="black"] {
-   polygon-fill: #18a79e;
-}
-#nyc_census_clipped[ethnic_1st="hispanic or latino"] {
-   polygon-fill: #ff8a00;
-}
-#nyc_census_clipped[ethnic_1st="other"] {
-   polygon-fill: #cccccc;
-}
-#nyc_census_clipped[ethnic_1st="white"] {
-   polygon-fill: #a0a4d5;
-}
-  </script>
-
-
-
-  <script type="text/template" id="css_dots">
-    #nyc_dots_500_2_copy{
-      marker-fill-opacity: 0.25;
-      marker-line-color: #FFF;
-      marker-line-width: 0;
-      marker-line-opacity: 1;
-      marker-placement: point;
-      marker-type: ellipse;
-      marker-width: 3;
-      marker-fill: #000000;
-      marker-allow-overlap: true;
-    }
-
-    #nyc_dots_500_2_copy[inside=true]{
-      marker-fill-opacity: 1;
-    }
-
-    #nyc_dots_500_2_copy[zoom<15]{
-      marker-width: 1.5;
+      [ethnic_1st="asian"] {
+        polygon-fill: #e78ac3;
+        line-color: darken(#e78ac3,5);
+      }
+      [ethnic_1st="black"] {
+        polygon-fill: #fc8d62;
+        line-color: darken(#fc8d62,5);
+      }
+      [ethnic_1st="hispanic or latino"] {
+        polygon-fill: #F1D38D;
+        line-color: darken(#F1D38D,5);
+      }
+      [ethnic_1st="other"] {
+        polygon-fill: #D3D3D3;
+        line-color: darken(#D3D3D3,5);
+      }
+      [ethnic_1st="white"] {
+        polygon-fill: #66c2a5;
+        line-color: darken(#66c2a5,5);
+      }
     }
   </script>
-
-
-
 
   <script type="text/template" id="css_iso">
     @20m:#5D6588;
@@ -373,61 +387,68 @@
     @5m:#78E089;
     @2m:#E4F966;
 
+
     #nyc_isos_copy {
+      ::dropshadow{
+        line-offset: -1;
+        line-width: 1;
+        image-filters: agg-stack-blur(2,2);
+        line-color: #78909C;
+        [zoom<=13]{line-width:0.5;}
+      }
       polygon-opacity: 0;
       line-color: transparent;
-      line-width: 2;
+      line-width: 2.5;
       line-opacity: 1;
+      polygon-fill: transparent;
 
-      [zoom>=16]{line-width: 2;}
+      [zoom>=15]{line-width: 3;}
+      [zoom<=13]{line-width: 1.5;}
 
       [data_range<=1200] {
       line-color: @20m;
+      polygon-fill: @20m;
       }
       [data_range<=900] {
       line-color: @15m;
+      polygon-fill: @15m;
       }
       [data_range<=600] {
       line-color: @10m;
+      polygon-fill: @10m;
       }
       [data_range<=300] {
       line-color: @5m;
+      polygon-fill:@5m;
       }
       [data_range<=120] {
       line-color: @2m;
+      polygon-fill:@2m;
       }
     }
 
-  #nyc_isos_copy::labels[zoom>=15] {
+  </script>
 
-    text-name: [data_range]/60 + ' min';
-    text-face-name: 'Open Sans Bold';
-    text-size: 11.5;
-    text-label-position-tolerance: 10;
-    text-fill: #FFFFFF;
-    text-halo-fill: #FFF;
-    text-halo-radius: 1.5;
-    text-allow-overlap: true;
-    text-placement: line;
-    text-placement-type: simple;
+  <script type="text/template" id="css_dots">
+    #nyc_dots_500_2_copy{
+      marker-fill-opacity: 0;
+      marker-line-color: #FFF;
+      marker-line-width: 0;
+      marker-line-opacity: 1;
+      marker-placement: point;
+      marker-type: ellipse;
+      marker-width: 3;
+      marker-fill: #607D8B;
+      marker-allow-overlap: true;
+    }
 
-    [data_range<=1200] {
-    text-halo-fill: @20m;
+    #nyc_dots_500_2_copy[inside=true]{
+      marker-fill-opacity: 0;
     }
-    [data_range<=900] {
-    text-halo-fill: @15m;
-    }
-    [data_range<=600] {
-    text-halo-fill: @10m;
-    }
-    [data_range<=300] {
-    text-halo-fill: @5m;
-    }
-    [data_range<=120] {
-    text-halo-fill: @2m;
-    }
-}
 
+    #nyc_dots_500_2_copy[zoom<15]{
+      marker-width: 1.6;
+    }
   </script>
 
   <script type="text/template" id="html_legend">
@@ -490,19 +511,19 @@
         <div class="legend-title">Ethnic group</div>
         <ul>
           <li>
-            <div class="bullet" style="background: #fe528d"></div> asian
+            <div class="bullet" style="background: #e78ac3"></div> asian
           </li>
           <li>
-            <div class="bullet" style="background: #18a79e"></div> black
+            <div class="bullet" style="background: #fc8d62"></div> black
           </li>
           <li>
-            <div class="bullet" style="background: #ff8a00"></div> hispanic or latino
+            <div class="bullet" style="background: #F1D38D"></div> hispanic or latino
           </li>
           <li>
-            <div class="bullet" style="background: #33A02C"></div> other
+            <div class="bullet" style="background: #66c2a5"></div> white
           </li>
           <li>
-            <div class="bullet" style="background: #a0a4d5"></div> white
+            <div class="bullet" style="background: #D3D3D3"></div> other
           </li>
         </ul>
       </div>

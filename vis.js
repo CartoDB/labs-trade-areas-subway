@@ -231,7 +231,7 @@ window.myapp.vis = {
               "options": {
                 "sql": "select * from nyc_subway_l",
                 "layer_name": "nyc_subway_l",
-                "cartocss": "/** simple visualization */\n\n#nyc_subway_l{\n  line-color: #000000;\n  line-width: 8;\n  line-opacity: 1;\n}\n\n#nyc_subway_l::inner{\n  line-color: #cccccc;\n  line-width: 7;\n  line-opacity: 1;\n}\n\n#nyc_dots_500_2_copy[zoom<15] {\n  line-width: 5;\n}\n\n#nyc_dots_500_2_copy::inner[zoom<15] {\n  line-width: 4;\n}",
+                "cartocss": "/** simple visualization */\n\n#nyc_subway_l{\n  line-color: #757575;\n  line-width: 8;\n  line-opacity: 1;\n}\n\n#nyc_subway_l::inner{\n  line-color: #cccccc;\n  line-width: 7;\n  line-opacity: 1;\n}\n\n#nyc_dots_500_2_copy[zoom<15] {\n  line-width: 5;\n}\n\n#nyc_dots_500_2_copy::inner[zoom<15] {\n  line-width: 4;\n}",
                 "cartocss_version": "2.1.1",
                 "interactivity": "cartodb_id",
                 "table_name": "\"\"."
