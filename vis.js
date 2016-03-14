@@ -1,6 +1,7 @@
 window.myapp = window.myapp || {};
 
 window.myapp.vis = {
+  "vector": true,
   "id": "f7e73372-dfbd-11e5-b9ef-0ea31932ec1d",
   "version": "0.1.0",
   "title": "nyc_census_final 1",
