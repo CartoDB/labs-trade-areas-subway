@@ -253,6 +253,22 @@
                   updateAll();
 
                 })
+
+                // layer.bindPopup(feature.properties.name);
+                // layer.on("mouseover", function () {
+                //   layer.openPopup();
+                // });
+                // layer.on("mouseout", function () {
+                //   layer.closePopup();
+                // });
+
+                layer.on('mouseover', function(e) {
+                  console.log(e.target.feature.properties.name)
+                });
+                layer.on('mouseout', function(e) {
+                  console.log(e.target.feature.properties.name)
+                });
+
               }
             }).addTo(myapp.Lmap)
           });
