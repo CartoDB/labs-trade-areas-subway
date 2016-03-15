@@ -177,7 +177,11 @@ window.myapp.vis = {
                 "maxHeight": 180
               },
               "tooltip": {
-                "fields": [],
+                "fields": [{
+                  name: "station_name",
+                  title: true,
+                  position: 5
+                }],
                 "template_name": "tooltip_light",
                 "template": "<div class=\"cartodb-tooltip-content-wrapper\">\n  <div class=\"cartodb-tooltip-content\">\n  {{#fields}}\n    {{#title}}\n    <h4>{{title}}</h4>\n    {{/title}}\n    <p>{{{ value }}}</p>\n  {{/fields}}\n  </div>\n</div>",
                 "alternative_names": {},
@@ -197,7 +201,7 @@ window.myapp.vis = {
                 "layer_name": "nyc_subway_stations_l_isos",
                 "cartocss": "@col0: #000000;\n@col1: #111111;\n@col2: #2d2d2d;\n@col3: #494948;\n@col4: #5c5c5c;\n\n\n#nyc_isos_copy{\n  polygon-fill: #FFFFCC;\n  polygon-opacity: 0;\n  line-color: #FFF;\n  line-opacity: 1;\n}\n#nyc_isos_copy::lbl{\n  text-name: [data_range]/60 + 'm. walking';\n  text-face-name: 'DejaVu Sans Bold';\n  text-size: 12;\n  text-label-position-tolerance: 10;\n  text-halo-fill: #FFFFFF;\n  text-halo-radius: 2;\n  text-allow-overlap: true;\n  text-placement: line;\n  text-placement-type: simple;\n}\n\n\n  #nyc_isos_copy [ data_range <= 1200] {\n    polygon-fill: @col0;\n    line-color: @col0;\n    line-width: 3;\n  }\n  #nyc_isos_copy::lbl [ data_range <= 1200] {\n    text-fill: @col0;\n  }\n\n  #nyc_isos_copy [ data_range <= 900] {\n    polygon-fill: @col1;\n    line-color: @col1;\n  line-width: 2.5;\n  }\n  #nyc_isos_copy::lbl [ data_range <= 900] {\n    text-fill: @col1;\n  }\n\n  #nyc_isos_copy [ data_range <= 600] {\n    polygon-fill: @col2;\n    line-color: @col2;\n  \tline-width: 2;\n  }\n  #nyc_isos_copy::lbl [ data_range <= 600] {\n    text-fill: @col2;\n  }\n\n  #nyc_isos_copy [ data_range <= 300] {\n    polygon-fill: @col3;\n    line-color: @col3;\n  line-width: 1.5;\n  }\n  #nyc_isos_copy::lbl [ data_range <= 300] {\n    text-fill: @col3;\n  }\n\n  #nyc_isos_cop [ data_range <= 120] {\n    polygon-fill: @col4;\n    line-color: @col4;\n  }\n  #nyc_isos_copy::lbl [ data_range <= 120] {\n    text-fill: @col4;\n  }\n\n",
                 "cartocss_version": "2.1.1",
-                "interactivity": "cartodb_id",
+                "interactivity": "cartodb_id,station_name",
                 "table_name": "\"\"."
               }
             },

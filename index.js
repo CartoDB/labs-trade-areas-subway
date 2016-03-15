@@ -120,7 +120,7 @@
         .done(function (vis, layers) {
 
           //inject call to action 
-          cdb.$('.cartodb-map-wrapper').append(' <div id="callToAction">Click any subway stop</div>')
+          cdb.$('.cartodb-map-wrapper').append('<div id="callToAction" class="CDB-Zoom-info">Click any subway stop</div>')
 
           window.myapp.wcontainer = cdb.$('#' + vis.$el.context.id + ' .CDB-Widget-canvasInner').get(0);
           window.myapp.mylayers = layers.models;
