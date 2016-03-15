@@ -58,9 +58,9 @@
       -webkit-appearance: none;
       margin-top: -8px;
     }
-/*    .Range:focus::-webkit-slider-runnable-track {
+    /* .Range:focus::-webkit-slider-runnable-track {
       background: #3aa9e3;
-    }*/
+    } */
     .Range::-moz-range-track {
       width: 100%;
       height: 4px;
@@ -131,10 +131,111 @@
     .u-ilist > li {
       display: inline-block;
     }
+    .CDB-Legend {
+      position: absolute;
+      border-radius: 4px;
+      background: #FFF;
+      box-shadow: 0 0 2px 0 rgba(0,0,0,.24),0 4px 8px 0 rgba(0,0,0,.16);
+      z-index: 2;
+      bottom: 16px;
+      right: 0;
+      padding: 16px 16px 8px 16px;
+      width: 200px;
+    }
+    .CDB-Legend-title {
+      font: 600 12px/16px 'Open Sans';
+      color: #2E3C43;
+    }
+    .CDB-Legend-listItem {
+      font: 600 10px/14px 'Open Sans';
+      color: #2E3C43;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      position: relative;
+    }
+    .CDB-Legend-listItem:before {
+      content: "";
+      position: absolute;
+      width: 5px;
+      height: 5px;
+      background: #fff;
+      border-radius: 50%;
+      border: 1px solid #D8D8D8;
+      left: -20px;
+      top: 4px;
+    }
+    .CDB-Legend-listItem:after {
+      content: "";
+      display: block;
+      position: absolute;
+      width: 1px;
+      background: #D8D8D8;
+      left: -17px;
+      top: -17px;
+      height: 21px;
+    }
+    .CDB-Legend-listItem:first-child:after {
+      top: -7px;
+      height: 12px;
+    }
+    .CDB-Legend-listItem:last-child {
+      margin-bottom: 0;
+    }
+    .CDB-Legend-listItem:last-child {
+      margin-bottom: 0;
+    }
+    .CDB-Legend-list {
+      padding: 8px 0 0 16px;
+      margin: 8px 0 20px 8px;
+    }
+    .CDB-Legend-point {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      display: inline-block;
+      vertical-align: middle;
+      margin-right: 4px;
+    }
+    .CDB-Legend-pointText {
+      display: inline-block;
+      vertical-align: middle;
+      margin-right: 6px;
+    }
+    .CDB-Legend-listItemText {
+      display: inline-block;
+      vertical-align: middle;
+    }
+    .CDB-ColorRamp-info {
+      border-radius: 10px;
+      height: 8px;
+      position: relative;
+    }
+    .CDB-ColorRamp-info:after {
+      content:"";
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      border-radius: 4px;
+      border: 1px solid rgba(0, 0, 0, .20);
+    }
+    .CDB-ColorRamp-text {
+      width: auto;
+      overflow: hidden;
+      margin-bottom: 4px;
+    }
+    .CDB-ColorRamp-text li:first-child {
+      float: left;
+    }
+    .CDB-ColorRamp-text li:last-child {
+      float: right;
+    }
   </style>
 </head>
 <body>
   <div id="dashboard"></div>
+
   <div class="CDB-Widget CDB-Widget--light js-iso-selector" style="display: block;">
     <div class="CDB-Widget-body">
       <div class="CDB-Widget-header js-header">
@@ -196,13 +297,9 @@
         )
       )
     <% } %>
-
-
   </script>
-  
 
   <script type="text/template" id="css_per_capita_income">
-
     @p1:#ffe1d3;
     @p2:#ffcaa1;
     @p3:#ffb283;
@@ -214,9 +311,7 @@
     @p9:#b31680;
     @p10:#97097c;
 
-
     #nyc_census_clipped {
-
       polygon-fill: #D3D3D3;
       polygon-opacity: 1;
       line-width: 1.5;
@@ -264,65 +359,60 @@
        line-color: darken(@p1,1);
      }
    }
-
-</script>
-
-
-
-  <script type="text/template" id="css_median_age">
-  #nyc_census_clipped{
-    polygon-fill: #D3D3D3;
-    polygon-opacity: 0.8;
-    line-width: 1.5;
-    line-color: transparent;
-    line-opacity: 0.9;
-
-    [ median_age <= 60.1] {
-    polygon-fill: #e81681;
-    line-color: darken(#e81681,2);
-    }
-    [ median_age <= 56.0] {
-    polygon-fill: #f03d8c;
-    line-color: darken(#f03d8c,2);
-    }
-    [ median_age <= 52.0] {
-    polygon-fill: #f75a8c;
-    line-color: darken(#f75a8c,2);
-    }
-    [ median_age <= 47.9] {
-    polygon-fill: #fd7386;
-    line-color: darken(#fd7386,5);
-    }
-    [ median_age <= 43.9] {
-    polygon-fill: #ff8d7d;
-    line-color: darken(#ff8d7d,5);
-    }
-    [ median_age <= 39.9] {
-    polygon-fill: #ffa378;
-    line-color: darken(#ffa378,5);
-    }
-    [ median_age <= 35.8] {
-    polygon-fill: #ffb87c;
-    line-color: darken(#ffb87c,5);
-    }
-    [ median_age <= 31.8] {
-    polygon-fill: #ffcd8b;
-    line-color: darken(#ffcd8b,5);
-    }
-    [ median_age <= 27.7] {
-    polygon-fill: #ffdfa2;
-    line-color: darken(#ffdfa2,5);
-    }
-    [ median_age <= 23.7] {
-    polygon-fill: #fff0c3;
-    line-color: darken(#fff0c3,5);
-    }
-  }
   </script>
 
+  <script type="text/template" id="css_median_age">
+    #nyc_census_clipped{
+      polygon-fill: #D3D3D3;
+      polygon-opacity: 0.8;
+      line-width: 1.5;
+      line-color: transparent;
+      line-opacity: 0.9;
 
+      [ median_age <= 60.1] {
+      polygon-fill: #e81681;
+      line-color: darken(#e81681,2);
+      }
+      [ median_age <= 56.0] {
+      polygon-fill: #f03d8c;
+      line-color: darken(#f03d8c,2);
+      }
+      [ median_age <= 52.0] {
+      polygon-fill: #f75a8c;
+      line-color: darken(#f75a8c,2);
+      }
+      [ median_age <= 47.9] {
+      polygon-fill: #fd7386;
+      line-color: darken(#fd7386,5);
+      }
+      [ median_age <= 43.9] {
+      polygon-fill: #ff8d7d;
+      line-color: darken(#ff8d7d,5);
+      }
+      [ median_age <= 39.9] {
+      polygon-fill: #ffa378;
+      line-color: darken(#ffa378,5);
+      }
+      [ median_age <= 35.8] {
+      polygon-fill: #ffb87c;
+      line-color: darken(#ffb87c,5);
+      }
+      [ median_age <= 31.8] {
+      polygon-fill: #ffcd8b;
+      line-color: darken(#ffcd8b,5);
+      }
+      [ median_age <= 27.7] {
+      polygon-fill: #ffdfa2;
+      line-color: darken(#ffdfa2,5);
+      }
+      [ median_age <= 23.7] {
+      polygon-fill: #fff0c3;
+      line-color: darken(#fff0c3,5);
+      }
+    }
+  </script>
 
-<script type="text/template" id="css_ethnic_1st">
+  <script type="text/template" id="css_ethnic_1st">
     #nyc_census_clipped {
       polygon-fill: #D3D3D3;
       polygon-opacity: 0.8;
@@ -400,92 +490,68 @@
       polygon-fill:@2m;
       }
     }
-
   </script>
-
- 
 
   <script type="text/template" id="html_legend">
-    <% if (index === 0) { %>
-    <div class='cartodb-legend choropleth'>
-      <div class="legend-title">Income</div>
-      <ul>
-        <li class="min">
-            Lower
-        </li>
-        <li class="max">
-            Higher
-        </li>
-        <li class="graph count_630">
-        <div class="colors">
-        <div class="quartile" style="background-color:#ffe1d3"></div>
-        <div class="quartile" style="background-color:#ffcaa1"></div>
-        <div class="quartile" style="background-color:#ffb283"></div>
-        <div class="quartile" style="background-color:#ff9674"></div>
-        <div class="quartile" style="background-color:#f97b72"></div>
-        <div class="quartile" style="background-color:#ee6076"></div>
-        <div class="quartile" style="background-color:#df467b"></div>
-        <div class="quartile" style="background-color:#cc2d7f"></div>
-        <div class="quartile" style="background-color:#b31680"></div>
-        <div class="quartile" style="background-color:#97097c"></div>
-        </div>
-        </li>
-      </ul>
-      </div>
-    <% } %>
-    <% if (index === 1) { %>
-    <div class='cartodb-legend choropleth'>
-      <div class="legend-title">Age</div>
-      <ul>
-          <li class="min">
-              Younger
-          </li>
-          <li class="max">
-              Older
-          </li>
-          <li class="graph count_630">
-          <div class="colors">
-          <div class="quartile" style="background-color:#fff0c3"></div>
-          <div class="quartile" style="background-color:#ffdfa2"></div>
-          <div class="quartile" style="background-color:#ffcd8b"></div>
-          <div class="quartile" style="background-color:#ffb87c"></div>
-          <div class="quartile" style="background-color:#ffa378"></div>
-          <div class="quartile" style="background-color:#ff8d7d"></div>
-          <div class="quartile" style="background-color:#fd7386"></div>
-          <div class="quartile" style="background-color:#f75a8c"></div>
-          <div class="quartile" style="background-color:#f03d8c"></div>
-          <div class="quartile" style="background-color:#e81681"></div>
-          </div>
-          </li>
-      </ul>
-    </div>
-    <% } %>
-    <% if (index === 2) { %>
-      <div class='cartodb-legend category'>
-        <div class="legend-title">Ethnic group</div>
-        <ul>
-          <li>
-            <div class="bullet" style="background: #e78ac3"></div> asian
-          </li>
-          <li>
-            <div class="bullet" style="background: #fc8d62"></div> black
-          </li>
-          <li>
-            <div class="bullet" style="background: #F1D38D"></div> hispanic or latino
-          </li>
-          <li>
-            <div class="bullet" style="background: #66c2a5"></div> white
-          </li>
-          <li>
-            <div class="bullet" style="background: #D3D3D3"></div> other
+    <div class="CDB-Legend">
+      <% if (index === 0) { %>
+        <h2 class="CDB-Legend-title">Income</h2>
+        <ul class="CDB-Legend-list">
+          <li class="CDB-Legend-listItem">
+            <div class="CDB-ColorRamp">
+              <ul class="CDB-ColorRamp-text">
+                <li>Lower</li>
+                <li>Higher</li>
+              </ul>
+              <div class="CDB-ColorRamp-info" style="background-image: linear-gradient(90deg, #ffe1d3, #ffcaa1, #ffb283, #ff9674, #f97b72, #ee6076, #df467b, #cc2d7f, #b31680, #97097c);">
+              </div>
+            </div>
           </li>
         </ul>
-      </div>
+      <% } %>
 
+      <% if (index === 1) { %>
+        <h2 class="CDB-Legend-title">Age</h2>
+        <ul class="CDB-Legend-list">
+          <li class="CDB-Legend-listItem">
+            <div class="CDB-ColorRamp">
+              <ul class="CDB-ColorRamp-text">
+                <li>Younger</li>
+                <li>Older</li>
+              </ul>
+              <div class="CDB-ColorRamp-info" style="background-image: linear-gradient(90deg, #fff0c3, #ffdfa2, #ffcd8b, #ffb87c, #ffa378, #ff8d7d, #fd7386, #f75a8c, #f03d8c, #e81681);">
+              </div>
+            </div>
+          </li>
+        </ul>
+      <% } %>
+
+    <% if (index === 2) { %>
+      <h2 class="CDB-Legend-title">Ethnic group</h2>
+      <ul class="CDB-Legend-list">
+        <li class="CDB-Legend-listItem">
+          <span class="CDB-Legend-point" style="background: #e78ac3;"></span>
+          <span class="CDB-Legend-listItemText">asian</span>
+        </li>
+        <li class="CDB-Legend-listItem">
+          <span class="CDB-Legend-point" style="background: #fc8d62;"></span>
+          <span class="CDB-Legend-listItemText">black</span>
+        </li>
+        <li class="CDB-Legend-listItem">
+          <span class="CDB-Legend-point" style="background: #F1D38D;"></span>
+          <span class="CDB-Legend-listItemText">hispanic or latino</span>
+        </li>
+        <li class="CDB-Legend-listItem">
+          <span class="CDB-Legend-point" style="background: #66c2a5;"></span>
+          <span class="CDB-Legend-listItemText">white</span>
+        </li>
+        <li class="CDB-Legend-listItem">
+          <span class="CDB-Legend-point" style="background: #D3D3D3;"></span>
+          <span class="CDB-Legend-listItemText">other</span>
+        </li>
+      </ul>
     <% } %>
   </script>
-
-
 
   <script src="vis.js"></script>
   <script src="index.js"></script>
