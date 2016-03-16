@@ -232,31 +232,6 @@
       margin-bottom: 12px;
       position: relative;
     }
-    .CDB-Legend-listItem--multiple:before {
-      content: "";
-      position: absolute;
-      width: 5px;
-      height: 5px;
-      background: #fff;
-      border-radius: 50%;
-      border: 1px solid #D8D8D8;
-      left: -20px;
-      top: 4px;
-    }
-    .CDB-Legend-listItem--multiple:after {
-      content: "";
-      display: block;
-      position: absolute;
-      width: 1px;
-      background: #D8D8D8;
-      left: -17px;
-      top: -17px;
-      height: 21px;
-    }
-    .CDB-Legend-listItem--multiple:first-child:after {
-      top: -7px;
-      height: 12px;
-    }
     .CDB-Legend-listItem:last-child {
       margin-bottom: 0;
     }
@@ -266,10 +241,6 @@
     .CDB-Legend-list {
       padding: 8px 0 0 0;
       margin: 8px 0 20px 0;
-    }
-    .CDB-Legend-list--multiple {
-      padding: 8px 0 0 16px;
-      margin: 8px 0 20px 8px;
     }
     .CDB-Legend-point {
       width: 8px;
@@ -618,24 +589,24 @@
 
     <% if (index === 2) { %>
       <h2 class="CDB-Legend-title">Ethnic group</h2>
-      <ul class="CDB-Legend-list CDB-Legend-list--multiple">
-        <li class="CDB-Legend-listItem CDB-Legend-listItem--multiple">
+      <ul class="CDB-Legend-list">
+        <li class="CDB-Legend-listItem">
           <span class="CDB-Legend-point" style="background: #e78ac3;"></span>
           <span class="CDB-Legend-listItemText">asian</span>
         </li>
-        <li class="CDB-Legend-listItem CDB-Legend-listItem--multiple">
+        <li class="CDB-Legend-listItem">
           <span class="CDB-Legend-point" style="background: #fc8d62;"></span>
           <span class="CDB-Legend-listItemText">black</span>
         </li>
-        <li class="CDB-Legend-listItem CDB-Legend-listItem--multiple">
+        <li class="CDB-Legend-listItem">
           <span class="CDB-Legend-point" style="background: #F1D38D;"></span>
           <span class="CDB-Legend-listItemText">hispanic or latino</span>
         </li>
-        <li class="CDB-Legend-listItem CDB-Legend-listItem--multiple">
+        <li class="CDB-Legend-listItem">
           <span class="CDB-Legend-point" style="background: #66c2a5;"></span>
           <span class="CDB-Legend-listItemText">white</span>
         </li>
-        <li class="CDB-Legend-listItem CDB-Legend-listItem--multiple">
+        <li class="CDB-Legend-listItem">
           <span class="CDB-Legend-point" style="background: #D3D3D3;"></span>
           <span class="CDB-Legend-listItemText">other</span>
         </li>
