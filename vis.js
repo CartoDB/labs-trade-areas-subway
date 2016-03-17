@@ -177,11 +177,7 @@ window.myapp.vis = {
                 "maxHeight": 180
               },
               "tooltip": {
-                "fields": [{
-                  name: "station_name",
-                  title: true,
-                  position: 5
-                }],
+                "fields": [],
                 "template_name": "tooltip_light",
                 "template": "<div class=\"cartodb-tooltip-content-wrapper\">\n  <div class=\"cartodb-tooltip-content\">\n  {{#fields}}\n    {{#title}}\n    <h4>{{title}}</h4>\n    {{/title}}\n    <p>{{{ value }}}</p>\n  {{/fields}}\n  </div>\n</div>",
                 "alternative_names": {},
@@ -238,6 +234,48 @@ window.myapp.vis = {
                 "cartocss": "/** simple visualization */\n\n#nyc_subway_l{\n  line-color: #000000;\n  line-width: 8;\n  line-opacity: 1;\n}\n\n#nyc_subway_l::inner{\n  line-color: #cccccc;\n  line-width: 7;\n  line-opacity: 1;\n}\n\n#nyc_dots_500_2_copy[zoom<15] {\n  line-width: 5;\n}\n\n#nyc_dots_500_2_copy::inner[zoom<15] {\n  line-width: 4;\n}",
                 "cartocss_version": "2.1.1",
                 "interactivity": "cartodb_id",
+                "table_name": "\"\"."
+              }
+            },
+            {
+              "id": "9dfb0e73-c475-4992-8a59-bd4a0f4e4b42",
+              "type": "CartoDB",
+              "infowindow": {
+                "fields": [],
+                "template_name": "table/views/infowindow_light",
+                "template": "<div class=\"cartodb-popup v2\">\n  <a href=\"#close\" class=\"cartodb-popup-close-button close\">x</a>\n  <div class=\"cartodb-popup-content-wrapper\">\n    <div class=\"cartodb-popup-content\">\n      {{#content.fields}}\n        {{#title}}<h4>{{title}}</h4>{{/title}}\n        {{#value}}\n          <p {{#type}}class=\"{{ type }}\"{{/type}}>{{{ value }}}</p>\n        {{/value}}\n        {{^value}}\n          <p class=\"empty\">null</p>\n        {{/value}}\n      {{/content.fields}}\n    </div>\n  </div>\n  <div class=\"cartodb-popup-tip-container\"></div>\n</div>\n",
+                "alternative_names": {},
+                "width": 226,
+                "maxHeight": 180
+              },
+              "tooltip": {
+                "fields": [
+                  {
+                    "name": "name",
+                    "title": true,
+                    "position": 1
+                  }
+                ],
+                "template_name": "tooltip_light",
+                "template": "<div class=\"cartodb-tooltip-content-wrapper\">\n  <div class=\"cartodb-tooltip-content\">\n  {{#fields}}\n    {{#title}}\n    <h4>{{title}}</h4>\n    {{/title}}\n    <p>{{{ value }}}</p>\n  {{/fields}}\n  </div>\n</div>",
+                "alternative_names": {},
+                "maxHeight": 180
+              },
+              "legend": {
+                "type": "none",
+                "show_title": false,
+                "title": "",
+                "template": "",
+                "visible": true
+              },
+              "order": 5,
+              "visible": true,
+              "options": {
+                "sql": "SELECT * FROM nerikcarto.nyc_subway_stations WHERE line like '%L%'\n",
+                "layer_name": "nyc_subway_stations",
+                "cartocss": "#nyc_subway_stations{\n  marker-fill-opacity: 0;\n  marker-line-color: #FFF;\n  marker-line-width: 0;\n marker-placement: point;\n  marker-type: ellipse;\n  marker-width: 20;\n  marker-fill: #FF6600;\n  marker-allow-overlap: true;\n}",
+                "cartocss_version": "2.1.1",
+                "interactivity": "cartodb_id,name",
                 "table_name": "\"\"."
               }
             }
