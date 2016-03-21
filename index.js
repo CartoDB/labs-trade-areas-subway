@@ -110,6 +110,7 @@
 
     window.onload = function () {
 
+        console.log(myapp.diJSON.layers[0].options.attribution);
 
         myapp.dash = cartodb.deepInsights.createDashboard('#dashboard', myapp.diJSON,  {
          no_cdn: false,
@@ -118,8 +119,16 @@
        })
         .vis
         .done(function (vis, layers) {
+          // inject attribution
+          cdb.$('.CDB-Attribution-text').html(myapp.diJSON.layers[0].options.attribution);
+          cdb.$('.CDB-Attribution').on('click', function (e) {
+            if (cdb.$(e.target).parents('.CDB-Attribution').hasClass('is-active')) {
+              window.open('http://here.net/services/terms')
 
-          //inject call to action 
+            }
+          })
+
+          //inject call to action
           cdb.$('.cartodb-map-wrapper').append('<div id="callToAction" class="CDB-Zoom-info">Click any subway stop</div>')
 
           window.myapp.wcontainer = cdb.$('#' + vis.$el.context.id + ' .CDB-Widget-canvasInner').get(0);
@@ -140,14 +149,14 @@
 
           cdb.$('.js-Range').on('change', function(e) {
             myapp.range = parseInt(e.target.value);
-            var mins = myapp.range / 60 + " min"
+            var mins = myapp.range / 60 + ' min';
             cdb.$('.js-Range-val').text(mins);
             updateAll();
           })
 
           var updateAll = function() {
             iso.set('sql', window.myapp.sqlTemplates.iso({station_id: myapp.station_id, range: myapp.range}));
-            
+
             updateBlockGroups();
           }
 
@@ -177,8 +186,6 @@
 
           // paint icons
           function onWidgetChange(model) {
-            console.log(model.get('column'))
-            console.log(model.filter.toJSON())
 
             cdb.$('.CDB-Widget').eq(0).find('.CDB-Widget-options').remove();
             cdb.$('.js-sizes').remove();
